@@ -6,6 +6,7 @@ const StyledInput = styled(Input)`
   height: 50px;
   margin-top: 10px;
   margin-bottom: 25px;
+  padding: 20px;
   border-width: 2px !important;
   border-right-width: 2px !important;
   font-family: 'Work Sans', sans-serif;

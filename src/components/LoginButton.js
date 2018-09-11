@@ -23,7 +23,7 @@ const StyledButton = styled(Button)`
 `
 
 export default props => (
-  <StyledButton block onClick={props.onClick}>
+  <StyledButton block onClick={props.onClick} htmlType="submit">
     <p>SIGN IN</p>
   </StyledButton>
 )

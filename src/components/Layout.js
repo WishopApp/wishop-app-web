@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-static'
 import { Layout, Menu } from 'antd'
 import { injectGlobal } from 'styled-components'
 
@@ -20,6 +21,10 @@ injectGlobal`
 `
 
 class AppLayout extends Component {
+  componentWillMount() {
+    this.props.history.push('/login')
+  }
+
   render() {
     return (
       <Layout>
@@ -39,4 +44,4 @@ class AppLayout extends Component {
   }
 }
 
-export default AppLayout
+export default withRouter(AppLayout)

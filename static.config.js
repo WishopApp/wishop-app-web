@@ -21,7 +21,7 @@ export default {
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>Wishop</title>
-            <link rel="icon" href="./public/logo/app-logo-no-title.svg" />
+            <link rel="icon" href="./public/logo/wishop-icon.png" />
             {renderMeta.styleTags}
             <link
               href="https://fonts.googleapis.com/css?family=Montserrat:600|Work+Sans:500"

@@ -1,14 +1,20 @@
 import React from 'react'
 import { Router, Switch, Route } from 'react-static'
-
+import universal from 'react-universal-component'
 import { hot } from 'react-hot-loader'
 /* css */
 import 'antd/dist/antd.css'
 import './global-css'
-/* containers */
-import NotFound from './containers/404'
-import Dashboard from './containers/Dashboard'
-import Login from './containers/Login'
+
+const Loading = () => <div />
+
+const options = {
+  loading: Loading
+}
+
+const Dashboard = universal(import('./containers/Dashboard'), options)
+const Login = universal(import('./containers/Login'), options)
+const NotFound = universal(import('./containers/404'), options)
 
 const App = () => (
   <Router>

@@ -21,15 +21,17 @@ const LogoBox = styled(Col)`
 
 const LoginWrapper = styled(Card)`
   padding: 25px 40px;
-  box-shadow: 3px 0px 5px -2px #00000030;
+  box-shadow: 0px 0px 15px -2px #00000030;
   max-width: 480px;
   min-width: 368px;
   margin-left: auto;
+  margin-right: 10px;
 
   @media screen and (max-width: 767px) {
     padding: 10px;
     min-height: 100vh;
     max-width: unset;
+    margin-right: unset;
   }
 `
 

@@ -6,12 +6,19 @@ import styled from 'styled-components'
 import Logo from '../../public/logo/app-logo-no-title.svg'
 
 const LeftCol = styled(Col)`
-  background-color: #f0f8ff;
   text-align: center;
   min-height: 100vh;
 
   @media screen and (max-width: 767px) {
     background-color: #ffffff;
+  }
+`
+
+const ContentCol = styled(Col)`
+  margin-left: auto;
+
+  @media screen and (max-width: 767px) {
+    margin-left: unset;
   }
 `
 
@@ -43,7 +50,7 @@ export default () => (
         align="middle"
         style={{ minHeight: '100vh' }}
       >
-        <Col>
+        <ContentCol>
           <Row>
             <MobileLogo src={Logo} height="80" alt="logo" />
             <h1 style={{ fontSize: 68 }}>404</h1>
@@ -56,7 +63,7 @@ export default () => (
               Let's go back <Link to="/">home</Link>
             </p>
           </Row>
-        </Col>
+        </ContentCol>
       </Row>
     </LeftCol>
     <RightCol xs={24} md={12} style={{ minHeight: '100vh' }}>
@@ -66,7 +73,12 @@ export default () => (
         align="middle"
         style={{ minHeight: '100vh' }}
       >
-        <img src={Logo} height="200" alt="logo" />
+        <img
+          src={Logo}
+          height="200"
+          alt="logo"
+          style={{ marginRight: 'auto', marginLeft: 50 }}
+        />
       </Row>
     </RightCol>
   </Row>

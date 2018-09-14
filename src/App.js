@@ -12,15 +12,20 @@ const options = {
   loading: Loading
 }
 
-const Dashboard = universal(import('./containers/Dashboard'), options)
 const Login = universal(import('./containers/Login'), options)
 const NotFound = universal(import('./containers/404'), options)
+
+const Dashboard = universal(import('./containers/Dashboard'), options)
+const Product = universal(import('./containers/Product'), options)
+const Beacon = universal(import('./containers/Beacon'), options)
 
 const App = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Dashboard} />
       <Route path="/login" component={Login} />
+      <Route path="/products" component={Product} />
+      <Route path="/beacons" component={Beacon} />
       <Route component={NotFound} />
     </Switch>
   </Router>

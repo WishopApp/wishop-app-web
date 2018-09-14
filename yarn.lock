@@ -6599,6 +6599,13 @@ react-universal-component@^2.8.1:
     hoist-non-react-statics "^2.2.1"
     prop-types "^15.5.10"
 
+react-universal-component@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-3.0.2.tgz#58484165f4f9c8bb4a4aa93ccd83f1f34a8935d2"
+  dependencies:
+    hoist-non-react-statics "^2.2.1"
+    prop-types "^15.5.10"
+
 react@^16, react@^16.0.0:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.2.tgz#2cd90154e3a9d9dd8da2991149fdca3c260e129f"

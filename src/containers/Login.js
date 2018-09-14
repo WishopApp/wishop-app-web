@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Card, Icon, Divider } from 'antd'
+import { Row, Col, Card, Divider } from 'antd'
 import styled from 'styled-components'
 
 import LoginButton from '../components/Login/LoginButton'
@@ -7,12 +7,11 @@ import Input from '../components/Form/Input'
 import ForgotPassword from '../components/Login/ForgotPassword'
 import Link from '../components/Typography/Link'
 import LoginWithFacebook from '../components/Login/LoginWithFacebook'
-import Logo from '../../public/logo/app-logo-no-title.svg'
-import LogoInline from '../../public/logo/app-logo-inline-text.svg'
+import LogoInline from '../../public/logo/logo-with-sub.svg'
+import LogoM from '../../public/logo/logo-with-sub-m.svg'
 
-const LogoBox = styled.div`
-  height: 50vh;
-  width: 50vh;
+const LogoBox = styled(Col)`
+  height: 100vh;
   background-color: #fff;
 
   @media screen and (max-width: 767px) {
@@ -23,10 +22,14 @@ const LogoBox = styled.div`
 const LoginWrapper = styled(Card)`
   padding: 25px 40px;
   box-shadow: 3px 0px 5px -2px #00000030;
+  max-width: 480px;
+  min-width: 368px;
+  margin-left: auto;
 
   @media screen and (max-width: 767px) {
     padding: 10px;
     min-height: 100vh;
+    max-width: unset;
   }
 `
 
@@ -50,12 +53,17 @@ class Login extends Component {
         type="flex"
         justify="center"
         align="middle"
-        style={{ minHeight: '100vh', backgroundColor: '#00a9ff' }}
+        style={{ minHeight: '100vh' }}
       >
-        <Col xs={24} md={12} lg={8}>
+        <Col xs={24} md={14} lg={12}>
           <LoginWrapper>
             <Row style={{ marginBottom: 20 }}>
-              <MobileLogo src={LogoInline} alt="" height="50" />
+              <MobileLogo
+                src={LogoM}
+                alt=""
+                height="60"
+                style={{ marginLeft: 'auto' }}
+              />
             </Row>
             <Row>
               <h1 style={{ marginBottom: 40, fontSize: 38 }}>Sign In</h1>
@@ -81,7 +89,7 @@ class Login extends Component {
                   <LoginButton />
                 </Row>
                 <Row type="flex">
-                  <p style={{ marginRight: 10, marginBottom: 10 }}>
+                  <p style={{ marginRight: 5, marginBottom: 10 }}>
                     Don't have an account?{' '}
                   </p>
                   <Link text="Sign up" to="/login" />
@@ -98,14 +106,23 @@ class Login extends Component {
             </Row>
           </LoginWrapper>
         </Col>
-        <LogoBox>
+        <LogoBox md={8} lg={12}>
           <Row
             type="flex"
             justify="center"
             align="middle"
             style={{ height: '100%' }}
           >
-            <img src={Logo} alt="" style={{ height: '50%' }} />
+            <img
+              src={LogoInline}
+              alt=""
+              style={{
+                width: '50%',
+                marginRight: 'auto',
+                marginLeft: 50,
+                minWidth: 230
+              }}
+            />
           </Row>
         </LogoBox>
       </Row>

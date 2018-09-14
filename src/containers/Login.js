@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Row, Col, Card, Icon, Divider } from 'antd'
 import styled from 'styled-components'
 
-import LoginButton from '../components/LoginButton'
-import Input from '../components/Input'
-import ForgotPassword from '../components/ForgotPassword'
-import Link from '../components/Link'
-import LoginWithFacebook from '../components/LoginWithFacebook'
+import LoginButton from '../components/Login/LoginButton'
+import Input from '../components/Form/Input'
+import ForgotPassword from '../components/Login/ForgotPassword'
+import Link from '../components/Typography/Link'
+import LoginWithFacebook from '../components/Login/LoginWithFacebook'
 import Logo from '../../public/logo/app-logo-no-title.svg'
 import LogoInline from '../../public/logo/app-logo-inline-text.svg'
 
@@ -41,7 +41,7 @@ const MobileLogo = styled.img`
 class Login extends Component {
   state = {
     email: '',
-    password: '',
+    password: ''
   }
 
   render() {
@@ -81,7 +81,9 @@ class Login extends Component {
                   <LoginButton />
                 </Row>
                 <Row type="flex">
-                  <p style={{ marginRight: 10, marginBottom: 10 }}>Don't have an account? </p>
+                  <p style={{ marginRight: 10, marginBottom: 10 }}>
+                    Don't have an account?{' '}
+                  </p>
                   <Link text="Sign up" to="/login" />
                 </Row>
                 <Row>
@@ -97,7 +99,12 @@ class Login extends Component {
           </LoginWrapper>
         </Col>
         <LogoBox>
-          <Row type="flex" justify="center" align="middle" style={{ height: '100%' }}>
+          <Row
+            type="flex"
+            justify="center"
+            align="middle"
+            style={{ height: '100%' }}
+          >
             <img src={Logo} alt="" style={{ height: '50%' }} />
           </Row>
         </LogoBox>

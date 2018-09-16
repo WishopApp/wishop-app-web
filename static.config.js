@@ -19,9 +19,12 @@ export default {
         <Html>
           <Head>
             <meta charSet="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
             <title>Wishop</title>
-            <link rel="icon" href="./public/logo/wishop-icon.png" />
+            <link rel="icon" type="image/png" href="./logo/wishop-icon.png" />
             {renderMeta.styleTags}
             <link
               href="https://fonts.googleapis.com/css?family=Montserrat:600|Work+Sans:500"

@@ -7,17 +7,17 @@ const { Content } = Layout
 
 const data = [
   {
-    title: 'Ant Design Title 1'
+    title: 'Ant Design Title 1',
   },
   {
-    title: 'Ant Design Title 2'
+    title: 'Ant Design Title 2',
   },
   {
-    title: 'Ant Design Title 3'
+    title: 'Ant Design Title 3',
   },
   {
-    title: 'Ant Design Title 4'
-  }
+    title: 'Ant Design Title 4',
+  },
 ]
 
 class Beacon extends Component {
@@ -28,7 +28,7 @@ class Beacon extends Component {
           <Col span={24}>
             <h3>BEACON</h3>
           </Col>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Card className="m-t-16">
               <List
                 itemLayout="horizontal"

@@ -41,6 +41,23 @@ injectGlobal`
     font-size: 10px;
   }
 
+  .ant-form-item {
+    margin-bottom: 0px;
+  }
+
+  .ant-layout-header {
+    background: #fff;
+  }
+
+  .ant-menu-item {
+    color: #000;
+  }
+
+  .ant-layout-content {
+    min-height: 100vh;
+    background: #f9f9f9;
+  }
+
   .m-b-16 {
     margin-bottom: 16px;
   }

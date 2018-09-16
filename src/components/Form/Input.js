@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const StyledInput = styled(Input)`
   height: 50px;
   margin-top: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   padding: 20px;
   border-width: 2px !important;
   border-right-width: 2px !important;
@@ -22,6 +22,11 @@ const StyledInput = styled(Input)`
 export default props => (
   <div>
     <h4>{props.label}</h4>
-    <StyledInput type={props.type} value={props.value} onChange={props.onChange} />
+    <StyledInput
+      type={props.type}
+      value={props.value}
+      placeholder={props.placeholder}
+      onChange={props.onChange}
+    />
   </div>
 )

@@ -5,22 +5,17 @@ import withLayout from '../utils/with-layout'
 
 const { Content } = Layout
 
-class Dashboard extends Component {
+class Profile extends Component {
   render() {
     return (
       <Content style={{ padding: 16 }}>
         <Row gutter={16}>
           <Col span={24}>
-            <h3>DASHBOARD</h3>
+            <h3>PROFILE</h3>
           </Col>
           <Col xs={24} md={12}>
             <Card className="m-t-16">
-              <h4>Table</h4>
-            </Card>
-          </Col>
-          <Col xs={24} md={12}>
-            <Card className="m-t-16">
-              <h4>Table</h4>
+              <h3>Under development...</h3>
             </Card>
           </Col>
         </Row>
@@ -29,4 +24,4 @@ class Dashboard extends Component {
   }
 }
 
-export default withLayout(Dashboard, { department: 'dashboard' })
+export default withLayout(Profile, { department: 'beacon' })

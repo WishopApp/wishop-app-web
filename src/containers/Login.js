@@ -46,7 +46,7 @@ const MobileLogo = styled.img`
 class Login extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
   }
 
   render() {
@@ -122,7 +122,7 @@ class Login extends Component {
                 width: '50%',
                 marginRight: 'auto',
                 marginLeft: 50,
-                minWidth: 230
+                minWidth: 230,
               }}
             />
           </Row>

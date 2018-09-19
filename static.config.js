@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import dotenv from 'dotenv'
 import { ServerStyleSheet } from 'styled-components'
+
+dotenv.config()
 
 export default {
   getSiteData: () => ({

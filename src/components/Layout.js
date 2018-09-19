@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-static'
 import { Layout, Divider } from 'antd'
 import styled from 'styled-components'
+import Cookies from 'js-cookie'
 
 import MobileMenu from './MobileMenu'
 import UserBar from './UserBar'
@@ -18,6 +19,13 @@ const ContentWrapper = styled(Content)`
 `
 
 class AppLayout extends Component {
+  componentWillMount() {
+    const token = Cookies.get(process.env.AUTH_TOKEN_NAME)
+    if (!token) {
+      this.props.history.push('/login')
+    }
+  }
+
   changePage = route => {
     this.props.history.push(route)
   }

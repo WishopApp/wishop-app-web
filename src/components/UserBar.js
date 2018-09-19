@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-static'
 import { Menu, Row, Icon, Avatar, Dropdown } from 'antd'
 import styled from 'styled-components'
+import { Query } from 'react-apollo'
 
 import Logo from '../../public/logo/app-logo-inline-text.svg'
 import user from '../../public/logo/user.png'
 import logout from '../../public/logo/logout.png'
+import { CURRENT_USER } from '../graphql/authentication/query'
 
 const menu = (
   <Menu>
@@ -23,7 +25,9 @@ const menu = (
             height="30"
             style={{ marginRight: 10 }}
           />
-          <h5>LOGOUT</h5>
+          <Link to="/logout">
+            <h5>LOGOUT</h5>
+          </Link>
         </Row>
       </Link>
     </Menu.Item>
@@ -50,17 +54,32 @@ const DesktopDropdown = styled(Row)`
 export default class UserBar extends Component {
   render() {
     return (
-      <Bar type="flex" justify="space-between">
-        <img src={Logo} alt="logo" height="30" style={{ margin: 'auto 0' }} />
-        <DesktopDropdown type="flex" align="middle">
-          <Avatar src={user} style={{ marginRight: 10 }} />
-          <Dropdown overlay={menu}>
-            <p style={{ cursor: 'pointer' }}>
-              Username <Icon type="down" />
-            </p>
-          </Dropdown>
-        </DesktopDropdown>
-      </Bar>
+      <Query query={CURRENT_USER}>
+        {({ loading, error, data }) => {
+          if (loading) return 'Loading...'
+          if (error) return `Error! ${error.message}`
+
+          return (
+            <Bar type="flex" justify="space-between">
+              <img
+                src={Logo}
+                alt="logo"
+                height="30"
+                style={{ margin: 'auto 0' }}
+              />
+              <DesktopDropdown type="flex" align="middle">
+                <Avatar src={user} style={{ marginRight: 10 }} />
+                <Dropdown overlay={menu}>
+                  <p style={{ cursor: 'pointer' }}>
+                    {data.currentUser.profile.name || 'Default name'}{' '}
+                    <Icon type="down" />
+                  </p>
+                </Dropdown>
+              </DesktopDropdown>
+            </Bar>
+          )
+        }}
+      </Query>
     )
   }
 }

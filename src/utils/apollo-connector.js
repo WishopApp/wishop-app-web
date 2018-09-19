@@ -3,8 +3,10 @@ import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import Cookies from 'js-cookie'
+import fetch from 'node-fetch'
 
 const httpLink = createHttpLink({
+  fetch,
   uri: `${process.env.API_URL}/graphql`,
 })
 

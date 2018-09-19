@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Row, Col, Card, Divider } from 'antd'
 import styled from 'styled-components'
+import { Mutation } from 'react-apollo'
+import Cookies from 'js-cookie'
+import { withRouter } from 'react-static'
 
 import LoginButton from '../components/Login/LoginButton'
 import Input from '../components/Form/Input'
@@ -9,6 +12,7 @@ import Link from '../components/Typography/Link'
 import LoginWithFacebook from '../components/Login/LoginWithFacebook'
 import LogoInline from '../../public/logo/logo-with-sub.svg'
 import LogoM from '../../public/logo/logo-with-sub-m.svg'
+import { LOGIN } from '../graphql/authentication/mutation'
 
 const LogoBox = styled(Col)`
   height: 100vh;
@@ -49,6 +53,28 @@ class Login extends Component {
     password: '',
   }
 
+  componentWillMount() {
+    const token = Cookies.get(process.env.AUTH_TOKEN_NAME)
+    if (token) {
+      this.props.history.push('/')
+    }
+  }
+
+  onLogin = async e => {
+    try {
+      e.preventDefault()
+
+      const { data } = await this.props.login({
+        variables: { email: this.state.email, password: this.state.password },
+      })
+
+      Cookies.set(process.env.AUTH_TOKEN_NAME, data.login, { expires: 7 })
+      this.props.history.push('/')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   render() {
     return (
       <Row
@@ -71,7 +97,7 @@ class Login extends Component {
               <h1 style={{ marginBottom: 40, fontSize: 38 }}>Sign In</h1>
             </Row>
             <Row>
-              <form onSubmit={() => console.log('ENTER!')}>
+              <form onSubmit={e => this.onLogin(e)}>
                 <Input
                   label="Email"
                   type="text"
@@ -132,4 +158,10 @@ class Login extends Component {
   }
 }
 
-export default Login
+const LoginMutation = props => (
+  <Mutation mutation={LOGIN}>
+    {(login, _) => <Login login={login} {...props} />}
+  </Mutation>
+)
+
+export default withRouter(LoginMutation)

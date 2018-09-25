@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-static'
-import { Layout, Row, Col, Card, Icon, Avatar, Form } from 'antd'
+import { Layout, Row, Col, Card, Form } from 'antd'
 
 import withLayout from '../utils/with-layout'
 import Button from '../components/Form/Button'
 import BackButton from '../components/Form/BackButton'
 import Input from '../components/Form/Input'
+import AutoComplete from '../components/Form/AutoComplete'
+import Select from '../components/Form/Select'
 
 const { Content } = Layout
-const { Meta } = Card
 const FormItem = Form.Item
 
 class AddProduct extends Component {
@@ -46,29 +47,52 @@ class AddProduct extends Component {
                 <Col xs={24} md={12} lg={6} className="m-t-16">
                   <Form onSubmit={this.createProduct}>
                     <FormItem>
-                      {getFieldDecorator('userName', {
+                      {getFieldDecorator('name', {
                         rules: [
                           {
                             required: true,
-                            message: 'Please input product name!',
+                            message: 'Please input name!',
+                          },
+                        ],
+                      })(<Input label="Name" placeholder="Enter name" />)}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('category', {
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Please select category!',
+                          },
+                        ],
+                      })(<AutoComplete label="Category" placeholder="Select Category..." />)}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('subCategory', {
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Please select sub category!',
                           },
                         ],
                       })(
-                        <Input
-                          label="Product name"
-                          placeholder="product name"
-                        />
+                        <AutoComplete label="Sub Category" placeholder="Select Sub Category..." />,
                       )}
                     </FormItem>
                     <FormItem>
-                      {getFieldDecorator('type', {
+                      {getFieldDecorator('size', {
                         rules: [
                           {
                             required: true,
-                            message: 'Please input type!',
+                            message: 'Please select sub category!',
                           },
                         ],
-                      })(<Input label="Type" placeholder="type" />)}
+                      })(
+                        <Select
+                          label="Size"
+                          placeholder="Select size..."
+                          data={[{ value: '12', text: 12 }]}
+                        />,
+                      )}
                     </FormItem>
                     <FormItem style={{ marginTop: 30 }}>
                       <Button title="CREATE" />

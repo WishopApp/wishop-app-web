@@ -69,7 +69,27 @@ class BeaconDashboard extends Component {
     return (
       <Col span={24} className="m-t-16">
         <Row gutter={16} type="flex" justify="center">
-          <Col xs={24} md={18} className="m-b-16">
+          <Col xs={24} md={6} className="m-b-16">
+            <Col span={24}>
+              <Card>
+                <Row gutter={16} type="flex" justify="center">
+                  <Col xs={24} md={24}>
+                    <h4 className="m-b-16">Do you want to upgrade your shop ?</h4>
+                    <Button icon="plus" title="ORDER MORE" />
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+
+            <Col span={24} className="m-t-16" style={{ marginBottom: 50 }}>
+              <Card>
+                <h4>Do you have a problem ?</h4>
+                <p>Call: 082-584-5803</p>
+              </Card>
+            </Col>
+          </Col>
+
+          <Col xs={24} md={18}>
             <Col span={24}>
               <Card>
                 <Row gutter={16}>
@@ -95,26 +115,6 @@ class BeaconDashboard extends Component {
                     <Table columns={columns} dataSource={data} />
                   </Col>
                 </Row>
-              </Card>
-            </Col>
-          </Col>
-
-          <Col xs={24} md={6}>
-            <Col span={24}>
-              <Card>
-                <Row gutter={16} type="flex" justify="center">
-                  <Col xs={24} md={24}>
-                    <h4 className="m-b-16">Do you want to upgrade your shop ?</h4>
-                    <Button icon="plus" title="ORDER MORE" />
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-
-            <Col span={24} className="m-t-16" style={{ marginBottom: 50 }}>
-              <Card>
-                <h4>Do you have a problem ?</h4>
-                <p>Call: 082-584-5803</p>
               </Card>
             </Col>
           </Col>

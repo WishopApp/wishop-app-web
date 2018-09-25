@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Row, Col } from 'antd'
 
 import withLayout from '../utils/with-layout'
-import StaffTable from '../components/Staff/StaffTable'
+import BranchDetail from '../components/Staff/BranchDetail'
 
 const { Content } = Layout
 
@@ -12,10 +12,10 @@ class Staff extends Component {
       <Content style={{ padding: 16 }}>
         <Row gutter={16}>
           <Col span={24}>
-            <h3>STAFF</h3>
+            <h3>BRANCH DETAIL</h3>
           </Col>
           <Col span={24} className="m-t-16">
-            <StaffTable />
+            <BranchDetail />
           </Col>
         </Row>
       </Content>

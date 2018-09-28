@@ -13,18 +13,8 @@ const menu = (
   <Menu>
     <Menu.Item>
       <Link to="/logout">
-        <Row
-          type="flex"
-          justify="center"
-          align="middle"
-          style={{ height: 40, padding: '0 10px' }}
-        >
-          <img
-            src={logout}
-            alt="logout"
-            height="30"
-            style={{ marginRight: 10 }}
-          />
+        <Row type="flex" justify="center" align="middle" style={{ height: 40, padding: '0 10px' }}>
+          <img src={logout} alt="logout" height="30" style={{ marginRight: 10 }} />
           <Link to="/logout">
             <h5>LOGOUT</h5>
           </Link>
@@ -61,18 +51,12 @@ export default class UserBar extends Component {
 
           return (
             <Bar type="flex" justify="space-between">
-              <img
-                src={Logo}
-                alt="logo"
-                height="30"
-                style={{ margin: 'auto 0' }}
-              />
+              <img src={Logo} alt="logo" height="30" style={{ margin: 'auto 0' }} />
               <DesktopDropdown type="flex" align="middle">
                 <Avatar src={user} style={{ marginRight: 10 }} />
                 <Dropdown overlay={menu}>
                   <p style={{ cursor: 'pointer' }}>
-                    {data.currentUser.profile.name || 'Default name'}{' '}
-                    <Icon type="down" />
+                    {data.currentUser.profile.name || 'Default name'} <Icon type="down" />
                   </p>
                 </Dropdown>
               </DesktopDropdown>

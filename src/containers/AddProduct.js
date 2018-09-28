@@ -1,24 +1,132 @@
 import React, { Component } from 'react'
-import { Link } from 'react-static'
-import { Layout, Row, Col, Card, Icon, Avatar, Form } from 'antd'
+import { Link, withRouter } from 'react-static'
+import { Layout, Row, Col, Card, Form, Checkbox } from 'antd'
+import { Query, Mutation } from 'react-apollo'
+import { find } from 'lodash'
 
 import withLayout from '../utils/with-layout'
 import Button from '../components/Form/Button'
 import BackButton from '../components/Form/BackButton'
 import Input from '../components/Form/Input'
+import AutoComplete from '../components/Form/AutoComplete'
+import Select from '../components/Form/Select'
+import { CATEGORIES } from '../graphql/query/category'
+import { CURRENT_USER } from '../graphql/authentication/query'
+import { STORE_BRANCHES } from '../graphql/query/store-branch'
+import { CREATE_PRODUCT } from '../graphql/mutation/product'
 
 const { Content } = Layout
-const { Meta } = Card
 const FormItem = Form.Item
+const CheckboxGroup = Checkbox.Group
 
 class AddProduct extends Component {
+  state = {
+    selectedCategory: null,
+    selectedSubCategory: null,
+  }
+
   createProduct = e => {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
-        console.log('Create !!')
+        const categoryProps = this.state.selectedCategory.properties.map(p => {
+          if (values[p.name]) {
+            return {
+              propId: p._id,
+              value: values[p.name],
+            }
+          }
+        })
+
+        let subCategoryProps
+        if (this.state.selectedSubCategory) {
+          subCategoryProps = this.state.selectedSubCategory.properties.map(
+            p => {
+              if (values[p.name]) {
+                return {
+                  propId: p._id,
+                  value: values[p.name],
+                }
+              }
+            }
+          )
+        }
+
+        try {
+          await this.props.createProduct({
+            variables: {
+              name: values.name,
+              storeId: this.props.currentUser.storeId,
+              storeBranchId: this.state.storeBranchId,
+              categoryId: this.state.selectedCategory._id,
+              subCategoryId: this.state.selectedSubCategory._id,
+              categoryProps,
+              subCategoryProps,
+            },
+          })
+
+          this.props.history.push('/products')
+        } catch (err) {
+          console.log(err)
+        }
       }
+    })
+  }
+
+  getCategoryDataSource = () => {
+    return this.props.categories.map(c => c.name)
+  }
+
+  getSubCategoryDataSource = () => {
+    if (this.state.selectedCategory.subCategories) {
+      return this.state.selectedCategory.subCategories.map(s => s.name)
+    }
+  }
+
+  getCategoryPropertyValues = index => {
+    if (this.state.selectedCategory) {
+      if (this.state.selectedCategory.properties) {
+        return this.state.selectedCategory.properties[index].values.map(v => ({
+          value: v,
+          text: v,
+        }))
+      }
+    }
+  }
+
+  getSubCategoryPropertyValues = index => {
+    if (this.state.selectedSubCategory) {
+      if (this.state.selectedSubCategory.properties) {
+        return this.state.selectedSubCategory.properties[index].values.map(
+          v => ({
+            value: v,
+            text: v,
+          })
+        )
+      }
+    }
+  }
+
+  selectCategory = async categoryName => {
+    const selectedCategory = find(this.props.categories, {
+      name: categoryName,
+    })
+
+    await this.setState({
+      selectedCategory,
+    })
+  }
+
+  selectSubCategory = subCategoryName => {
+    const selectedSubCategory = find(
+      this.state.selectedCategory.subCategories,
+      {
+        name: subCategoryName,
+      }
+    )
+
+    this.setState({
+      selectedSubCategory,
     })
   }
 
@@ -46,30 +154,137 @@ class AddProduct extends Component {
                 <Col xs={24} md={12} lg={6} className="m-t-16">
                   <Form onSubmit={this.createProduct}>
                     <FormItem>
-                      {getFieldDecorator('userName', {
+                      {getFieldDecorator('name', {
                         rules: [
                           {
                             required: true,
-                            message: 'Please input product name!',
+                            message: 'Please input name!',
+                          },
+                        ],
+                      })(<Input label="Name" placeholder="Enter name" />)}
+                    </FormItem>
+                    {this.props.storeBranches && (
+                      <FormItem style={{ marginBottom: 16 }}>
+                        {getFieldDecorator('storeBranchId', {
+                          rules: [
+                            {
+                              required: true,
+                              message: 'Please select!',
+                            },
+                          ],
+                        })(
+                          <div>
+                            <h4>Available on branch</h4>
+                            <CheckboxGroup
+                              onChange={storeBranchId =>
+                                this.setState({ storeBranchId })
+                              }
+                            >
+                              <Row>
+                                {this.props.storeBranches.length !== 0 &&
+                                  this.props.storeBranches.map((s, index) => (
+                                    <Col key={index} span={24}>
+                                      <Checkbox value={s._id}>
+                                        {s.name}
+                                      </Checkbox>
+                                    </Col>
+                                  ))}
+                              </Row>
+                            </CheckboxGroup>
+                          </div>
+                        )}
+                      </FormItem>
+                    )}
+
+                    <FormItem>
+                      {getFieldDecorator('category', {
+                        validateTrigger: 'onSelect',
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Please select category!',
                           },
                         ],
                       })(
-                        <Input
-                          label="Product name"
-                          placeholder="product name"
+                        <AutoComplete
+                          label="Category"
+                          placeholder="Select Category..."
+                          dataSource={this.getCategoryDataSource()}
+                          onSelect={this.selectCategory}
                         />
                       )}
                     </FormItem>
-                    <FormItem>
-                      {getFieldDecorator('type', {
-                        rules: [
-                          {
-                            required: true,
-                            message: 'Please input type!',
-                          },
-                        ],
-                      })(<Input label="Type" placeholder="type" />)}
-                    </FormItem>
+                    {this.state.selectedCategory &&
+                      this.state.selectedCategory.subCategories.length !==
+                        0 && (
+                        <FormItem>
+                          {getFieldDecorator('subCategory', {
+                            validateTrigger: 'onSelect',
+                            rules: [
+                              {
+                                required: true,
+                                message: 'Please select sub category!',
+                              },
+                            ],
+                          })(
+                            <AutoComplete
+                              label="Sub Category"
+                              placeholder="Select Sub Category..."
+                              dataSource={this.getSubCategoryDataSource()}
+                              onSelect={this.selectSubCategory}
+                            />
+                          )}
+                        </FormItem>
+                      )}
+                    {this.state.selectedCategory &&
+                      this.state.selectedCategory.properties.map((p, index) => (
+                        <FormItem key={index} style={{ marginBottom: 16 }}>
+                          {getFieldDecorator(p.name, {
+                            rules: [
+                              {
+                                required: true,
+                                message: 'Please select!',
+                              },
+                            ],
+                          })(
+                            <Select
+                              label={p.name}
+                              placeholder={`Select ${p.name}`}
+                              data={this.getCategoryPropertyValues(index)}
+                            />
+                          )}
+                        </FormItem>
+                      ))}
+                    {this.state.selectedSubCategory &&
+                      this.state.selectedSubCategory.properties.map(
+                        (p, index) => {
+                          if (p.name) {
+                            return (
+                              <FormItem
+                                key={index}
+                                style={{ marginBottom: 16 }}
+                              >
+                                {getFieldDecorator(p.name, {
+                                  rules: [
+                                    {
+                                      required: true,
+                                      message: 'Please select!',
+                                    },
+                                  ],
+                                })(
+                                  <Select
+                                    label={p.name}
+                                    placeholder={`Select ${p.name}`}
+                                    data={this.getSubCategoryPropertyValues(
+                                      index
+                                    )}
+                                  />
+                                )}
+                              </FormItem>
+                            )
+                          }
+                        }
+                      )}
                     <FormItem style={{ marginTop: 30 }}>
                       <Button title="CREATE" />
                     </FormItem>
@@ -86,4 +301,50 @@ class AddProduct extends Component {
 
 const AddProductWithForm = Form.create()(AddProduct)
 
-export default withLayout(AddProductWithForm, { department: 'product' })
+const WithCategory = props => (
+  <Query query={CATEGORIES}>
+    {({ loading, error, data }) => {
+      if (loading) return 'Loading...'
+      if (error) return `Error: ${error.message}`
+
+      return <AddProductWithForm categories={data.categories} {...props} />
+    }}
+  </Query>
+)
+
+const WithStoreBranch = props => (
+  <Query
+    query={STORE_BRANCHES}
+    variables={{ storeId: props.currentUser.storeId }}
+  >
+    {({ loading, error, data }) => {
+      if (loading) return 'Loading...'
+      if (error) return `Error: ${error.message}`
+
+      return <WithCategory storeBranches={data.storeBranches} {...props} />
+    }}
+  </Query>
+)
+
+const WithCurrentUser = props => (
+  <Query query={CURRENT_USER}>
+    {({ loading, error, data }) => {
+      if (loading) return 'Loading...'
+      if (error) return `Error: ${error.message}`
+
+      return <WithStoreBranch currentUser={data.currentUser} {...props} />
+    }}
+  </Query>
+)
+
+const WithCreateProduct = props => (
+  <Mutation mutation={CREATE_PRODUCT}>
+    {(createProduct, _) => (
+      <WithCurrentUser createProduct={createProduct} {...props} />
+    )}
+  </Mutation>
+)
+
+export default withLayout(withRouter(WithCreateProduct), {
+  department: 'product',
+})

@@ -29,6 +29,10 @@ const StyledAutoComplete = styled(AutoComplete)`
 export default props => (
   <div>
     <h4>{props.label}</h4>
-    <StyledAutoComplete dataSource={props.dataSource} placeholder={props.placeholder} />
+    <StyledAutoComplete
+      dataSource={props.dataSource}
+      placeholder={props.placeholder}
+      onSelect={props.onSelect}
+    />
   </div>
 )

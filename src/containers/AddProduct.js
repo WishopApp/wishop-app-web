@@ -304,7 +304,7 @@ const AddProductWithForm = Form.create()(AddProduct)
 const WithCategory = props => (
   <Query query={CATEGORIES}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...'
+      if (loading) return <Card loading />
       if (error) return `Error: ${error.message}`
 
       return <AddProductWithForm categories={data.categories} {...props} />
@@ -318,7 +318,7 @@ const WithStoreBranch = props => (
     variables={{ storeId: props.currentUser.storeId }}
   >
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...'
+      if (loading) return <Card loading />
       if (error) return `Error: ${error.message}`
 
       return <WithCategory storeBranches={data.storeBranches} {...props} />
@@ -329,7 +329,7 @@ const WithStoreBranch = props => (
 const WithCurrentUser = props => (
   <Query query={CURRENT_USER}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...'
+      if (loading) return <Card loading />
       if (error) return `Error: ${error.message}`
 
       return <WithStoreBranch currentUser={data.currentUser} {...props} />

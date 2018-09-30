@@ -24,3 +24,13 @@ export const CREATE_PRODUCT = gql`
     }
   }
 `
+
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($id: ID!, $status: PRODUCT_STATUSES!) {
+    updateProduct(_id: $id, status: $status) {
+      _id
+      name
+      status
+    }
+  }
+`

@@ -9,23 +9,20 @@ const data = [
   {
     key: '1',
     name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    status: 'INUSE',
+    type: 'INDOOR',
   },
   {
     key: '2',
     name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    status: 'INUSE',
+    type: 'INDOOR',
   },
   {
     key: '3',
     name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    status: 'EXPIRE',
+    type: 'STICKER',
   },
 ]
 
@@ -62,7 +59,14 @@ class BeaconDashboard extends Component {
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
-        render: () => <Badge status="processing" text="NEW" />,
+        render: status => {
+          if (status === 'EXPIRE') {
+            return <Badge status="processing" text="Expired" />
+          }
+          if (status === 'INUSE') {
+            return <Badge status="success" text="Running" />
+          }
+        },
       },
     ]
 
@@ -74,7 +78,9 @@ class BeaconDashboard extends Component {
               <Card>
                 <Row gutter={16} type="flex" justify="center">
                   <Col xs={24} md={24}>
-                    <h4 className="m-b-16">Do you want to upgrade your shop ?</h4>
+                    <h4 className="m-b-16">
+                      Do you want to upgrade your shop ?
+                    </h4>
                     <Button icon="plus" title="ORDER MORE" />
                   </Col>
                 </Row>
@@ -96,19 +102,19 @@ class BeaconDashboard extends Component {
                   <Col span={8}>
                     <Card>
                       <h4>LOCATION</h4>
-                      <h3>10</h3>
+                      <h3>1</h3>
                     </Card>
                   </Col>
                   <Col span={8}>
                     <Card>
                       <h4>STICKER</h4>
-                      <h3>10</h3>
+                      <h3>2</h3>
                     </Card>
                   </Col>
                   <Col span={8}>
                     <Card>
                       <h4>TOTAL</h4>
-                      <h3>10</h3>
+                      <h3>3</h3>
                     </Card>
                   </Col>
                   <Col span={24} className="m-t-16">

@@ -1,13 +1,38 @@
 import React, { Component } from 'react'
 import { Link } from 'react-static'
-import { Row, Col, Card, Modal, Table, Badge, Divider } from 'antd'
-import { Query } from 'react-apollo'
+import {
+  Row,
+  Col,
+  Card,
+  Modal,
+  Table,
+  Badge,
+  Divider,
+  Switch,
+  Popconfirm,
+} from 'antd'
+import { Query, Mutation } from 'react-apollo'
 
 import Button from '../Form/Button'
 import { PRODUCTS, PRODUCT_STATISTIC } from '../../graphql/query/product'
 import { CURRENT_USER } from '../../graphql/authentication/query'
+import { UPDATE_PRODUCT } from '../../graphql/mutation/product'
 
 class ProductTable extends Component {
+  updateProduct = (id, isAvailable) => {
+    try {
+      let status = 'OUT_OF_STOCK'
+      if (!isAvailable) {
+        status = 'AVAILABLE'
+      }
+
+      this.props.updateProduct({ variables: { id, status } })
+      this.props.products.refetch()
+    } catch (err) {
+      console.error(err.message)
+    }
+  }
+
   render() {
     const columns = [
       {
@@ -36,12 +61,35 @@ class ProductTable extends Component {
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
+        width: 150,
+        align: 'center',
         render: status =>
           status === 'AVAILABLE' ? (
             <Badge status="success" text="Available" />
           ) : (
             <Badge status="error" text="Out of stock" />
           ),
+      },
+      {
+        title: 'Operation',
+        dataIndex: 'Operation',
+        key: 'Operation',
+        align: 'center',
+        render: (text, record) => (
+          <Row>
+            <p className="m-b-16">สถานะสินค้า</p>
+            <Popconfirm
+              title="Are you sure?"
+              onConfirm={() =>
+                this.updateProduct(record._id, record.status === 'AVAILABLE')
+              }
+              okText="Yes"
+              cancelText="No"
+            >
+              <Switch checked={record.status === 'AVAILABLE'} />
+            </Popconfirm>
+          </Row>
+        ),
       },
     ]
 
@@ -88,6 +136,14 @@ class ProductTable extends Component {
   }
 }
 
+const WithProductUpdate = props => (
+  <Mutation mutation={UPDATE_PRODUCT}>
+    {(updateProduct, _) => (
+      <ProductTable updateProduct={updateProduct} {...props} />
+    )}
+  </Mutation>
+)
+
 const WithProductStatistic = props => (
   <Query
     query={PRODUCT_STATISTIC}
@@ -98,7 +154,10 @@ const WithProductStatistic = props => (
       if (error) return `Error: ${error.message}`
 
       return (
-        <ProductTable productStatistic={data.productStatistic} {...props} />
+        <WithProductUpdate
+          productStatistic={data.productStatistic}
+          {...props}
+        />
       )
     }}
   </Query>

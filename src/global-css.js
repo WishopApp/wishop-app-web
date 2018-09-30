@@ -70,4 +70,8 @@ injectGlobal`
   .m-l-16 {
     margin-left: 16px;
   }
+
+  .flex-col {
+    flex-direction: column;
+  }
 `

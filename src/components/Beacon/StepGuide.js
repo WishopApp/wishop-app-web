@@ -21,38 +21,68 @@ class StepGuide extends Component {
               <Row type="flex" justify="center">
                 <img src={Logo} alt="logo" style={{ height: 100 }} />
               </Row>
-              <Row type="flex" justify="center" className="m-t-16">
-                <h3>MAIN STEP HEADER</h3>
+              <Row
+                type="flex"
+                justify="center"
+                align="middle"
+                className="m-t-16 flex-col"
+              >
+                <h1>เข้าถึงลูกค้าของคุณได้ง่ายขึ้น พร้อมโอกาสเพิ่มยอดขาย</h1>
+                <h2>
+                  อยากให้สินค้าของคุณขายง่ายยิ่งขึ้น ลูกค้าเห็นสินค้า
+                  เพิ่มยอดขายให้ร้าน ติดตัง " Beacon " สิ ง่ายๆเพียงสามขั้นตอน
+                </h2>
               </Row>
             </Col>
             <Col xs={24} md={8} style={{ marginTop: 50 }}>
               <Row type="flex" justify="center">
                 <img src={Logo} alt="logo" style={{ height: 100 }} />
               </Row>
-              <Row type="flex" justify="center" className="m-t-16">
-                <h4>STEP 1</h4>
+              <Row
+                type="flex"
+                justify="center"
+                align="middle"
+                className="m-t-16 flex-col"
+              >
+                <h1>STEP 1</h1>
+                <h2>คลิ้กสั่งซื้อ beacon </h2>
               </Row>
             </Col>
             <Col xs={24} md={8} style={{ marginTop: 50 }}>
               <Row type="flex" justify="center">
                 <img src={Logo} alt="logo" style={{ height: 100 }} />
               </Row>
-              <Row type="flex" justify="center" className="m-t-16">
-                <h4>STEP 2</h4>
+              <Row
+                type="flex"
+                justify="center"
+                align="middle"
+                className="m-t-16 flex-col"
+              >
+                <h1>STEP 2</h1>
+                <h2>รอการยืนยันจากทางเราและติดต่อกลับไป</h2>
               </Row>
             </Col>
             <Col xs={24} md={8} style={{ marginTop: 50 }}>
               <Row type="flex" justify="center">
                 <img src={Logo} alt="logo" style={{ height: 100 }} />
               </Row>
-              <Row type="flex" justify="center" className="m-t-16">
-                <h4>STEP 3</h4>
+              <Row
+                type="flex"
+                justify="center"
+                align="middle"
+                className="m-t-16 flex-col"
+              >
+                <h1>STEP 3</h1>
+                <h2>ทีมงานลงพื้นที่และติดตั้งอุปกรณ์ beacon ที่ร้านของคุณ</h2>
               </Row>
             </Col>
           </Row>
           <Row type="flex" justify="center" style={{ marginTop: 50 }}>
             <Col xs={24} md={6} className="m-t-16">
-              <Button title="ORDER BEACON" onClick={() => this.setState({ visible: true })} />
+              <Button
+                title="ORDER BEACON"
+                onClick={() => this.setState({ visible: true })}
+              />
             </Col>
           </Row>
         </Card>

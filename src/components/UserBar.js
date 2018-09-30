@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-static'
+import { Link, withRouter } from 'react-static'
 import { Menu, Row, Icon, Avatar, Dropdown } from 'antd'
 import styled from 'styled-components'
 import { Query } from 'react-apollo'
+import Cookies from 'js-cookie'
 
 import Logo from '../../public/logo/app-logo-inline-text.svg'
 import user from '../../public/logo/user.png'
@@ -13,8 +14,18 @@ const menu = (
   <Menu>
     <Menu.Item>
       <Link to="/logout">
-        <Row type="flex" justify="center" align="middle" style={{ height: 40, padding: '0 10px' }}>
-          <img src={logout} alt="logout" height="30" style={{ marginRight: 10 }} />
+        <Row
+          type="flex"
+          justify="center"
+          align="middle"
+          style={{ height: 40, padding: '0 10px' }}
+        >
+          <img
+            src={logout}
+            alt="logout"
+            height="30"
+            style={{ marginRight: 10 }}
+          />
           <Link to="/logout">
             <h5>LOGOUT</h5>
           </Link>
@@ -40,23 +51,32 @@ const DesktopDropdown = styled(Row)`
     display: none;
   }
 `
-
-export default class UserBar extends Component {
+class UserBar extends Component {
   render() {
     return (
       <Query query={CURRENT_USER}>
         {({ loading, error, data }) => {
           if (loading) return 'Loading...'
-          if (error) return `Error! ${error.message}`
+          if (error) {
+            Cookies.remove(process.env.AUTH_TOKEN_NAME)
+            this.props.history.push('/login')
+            return <div />
+          }
 
           return (
             <Bar type="flex" justify="space-between">
-              <img src={Logo} alt="logo" height="30" style={{ margin: 'auto 0' }} />
+              <img
+                src={Logo}
+                alt="logo"
+                height="30"
+                style={{ margin: 'auto 0' }}
+              />
               <DesktopDropdown type="flex" align="middle">
                 <Avatar src={user} style={{ marginRight: 10 }} />
                 <Dropdown overlay={menu}>
                   <p style={{ cursor: 'pointer' }}>
-                    {data.currentUser.profile.name || 'Default name'} <Icon type="down" />
+                    {data.currentUser.profile.name || 'Default name'}{' '}
+                    <Icon type="down" />
                   </p>
                 </Dropdown>
               </DesktopDropdown>
@@ -67,3 +87,5 @@ export default class UserBar extends Component {
     )
   }
 }
+
+export default withRouter(UserBar)

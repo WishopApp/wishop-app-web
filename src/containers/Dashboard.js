@@ -47,7 +47,7 @@ class Dashboard extends Component {
           <Col span={24}>
             <h3>DASHBOARD</h3>
           </Col>
-          <Col xs={6} md={6}>
+          <Col xs={24} md={6}>
             <Card className="m-t-16">
               <h4 className="m-b-16">LAST CUSTOMER</h4>
               <Row type="flex" justify="center">
@@ -61,7 +61,7 @@ class Dashboard extends Component {
               </Row>
             </Card>
           </Col>
-          <Col xs={18} md={12}>
+          <Col xs={24} md={12}>
             <Card className="m-t-16">
               <h4>RECENT CUSTOMERS</h4>
               <List
@@ -79,7 +79,11 @@ class Dashboard extends Component {
                         </Row>
                       </Col>
                       <Col span={6} style={{ height: '100%' }}>
-                        <Row type="flex" align="middle" style={{ height: '100%' }}>
+                        <Row
+                          type="flex"
+                          align="middle"
+                          style={{ height: '100%' }}
+                        >
                           <p>2018-06-01 17:03</p>
                         </Row>
                       </Col>
@@ -89,7 +93,7 @@ class Dashboard extends Component {
               />
             </Card>
           </Col>
-          <Col xs={18} md={6}>
+          <Col xs={24} md={6}>
             <Card className="m-t-16">
               <h4>CATEGORY RANKING</h4>
               <List

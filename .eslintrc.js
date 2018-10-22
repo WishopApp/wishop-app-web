@@ -2,7 +2,7 @@ module.exports = {
   extends: 'react-tools',
   env: {
     browser: true,
-    node: true
+    node: true,
   },
   rules: {
     'linebreak-style': ['error', 'windows'],
@@ -10,8 +10,8 @@ module.exports = {
     'object-curly-newline': [
       'error',
       {
-        consistent: true
-      }
-    ]
-  }
+        consistent: true,
+      },
+    ],
+  },
 }

@@ -15,6 +15,7 @@ const options = {
   loading: Loading,
 }
 
+const Register = universal(import('./containers/Register'), options)
 const Login = universal(import('./containers/Login'), options)
 const Logout = universal(import('./containers/Logout'), options)
 const NotFound = universal(import('./containers/404'), options)
@@ -32,6 +33,7 @@ const App = () => (
     <Router>
       <Switch>
         <Route exact path="/" component={Dashboard} />
+        <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
         <Route path="/products/new" component={AddProduct} />

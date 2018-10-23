@@ -19,12 +19,12 @@ const ContentWrapper = styled(Content)`
 `
 
 class AppLayout extends Component {
-  // componentWillMount() {
-  //   const token = Cookies.get(process.env.AUTH_TOKEN_NAME)
-  //   if (!token) {
-  //     this.props.history.push('/login')
-  //   }
-  // }
+  componentWillMount() {
+    const token = Cookies.get(process.env.AUTH_TOKEN_NAME)
+    if (!token) {
+      this.props.history.push('/login')
+    }
+  }
 
   changePage = route => {
     this.props.history.push(route)

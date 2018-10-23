@@ -9,17 +9,29 @@ import './global-css'
 /* graphql */
 import client from './utils/apollo-connector'
 
+// Development Import
+// import CreateStore from './containers/CreateStore'
+// import Login from './containers/Login'
+// import Logout from './containers/Logout'
+// import NotFound from './containers/404'
+// import Dashboard from './containers/Dashboard'
+// import Product from './containers/Product'
+// import AddProduct from './containers/AddProduct'
+// import Beacon from './containers/Beacon'
+// import BranchDetail from './containers/BranchDetail'
+// import Staff from './containers/Staff'
+// import Profile from './containers/Profile'
+
 const Loading = () => <div />
 
 const options = {
   loading: Loading,
 }
 
-const Register = universal(import('./containers/Register'), options)
+const CreateStore = universal(import('./containers/CreateStore'), options)
 const Login = universal(import('./containers/Login'), options)
 const Logout = universal(import('./containers/Logout'), options)
 const NotFound = universal(import('./containers/404'), options)
-
 const Dashboard = universal(import('./containers/Dashboard'), options)
 const Product = universal(import('./containers/Product'), options)
 const AddProduct = universal(import('./containers/AddProduct'), options)
@@ -33,7 +45,7 @@ const App = () => (
     <Router>
       <Switch>
         <Route exact path="/" component={Dashboard} />
-        <Route path="/register" component={Register} />
+        <Route path="/create" component={CreateStore} />
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
         <Route path="/products/new" component={AddProduct} />

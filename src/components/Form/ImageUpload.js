@@ -59,8 +59,6 @@ const UsedImage = styled.img`
 
 export default class ImageUpload extends React.Component {
   state = {
-    imageSrc:
-      'https://static1.squarespace.com/static/5b96985ab98a781870d1c891/5b9698b48a922dd0d75a3fff/5bc4ac550852293bddfac9cb/1539616217699/1.jpg?format=750w',
     haveExample: false,
   }
 

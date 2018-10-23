@@ -63,6 +63,10 @@ class UserBar extends Component {
             return <div />
           }
 
+          if (!data.currentUser.storeId) {
+            this.props.history.push('/create')
+          }
+
           return (
             <Bar type="flex" justify="space-between">
               <img

@@ -8,6 +8,10 @@ const StyledButton = styled(Button)`
   border-color: #582fff !important;
   transition: all 0.375ms ease-in-out;
 
+  i.anticon-loading {
+    color: #fff;
+  }
+
   &:hover {
     background-color: #522bef !important;
     border-color: #522bef !important;
@@ -23,10 +27,17 @@ const StyledButton = styled(Button)`
 `
 
 export default props => (
-  <StyledButton block onClick={props.onClick} htmlType="submit">
-    <p>
-      {' '}
-      <Icon type={props.icon} style={{ color: '#fff' }} /> {props.title}
-    </p>
+  <StyledButton
+    block
+    onClick={props.onClick}
+    htmlType="submit"
+    loading={props.loading}
+  >
+    {!props.loading && (
+      <p>
+        {' '}
+        <Icon type={props.icon} style={{ color: '#fff' }} /> {props.title}
+      </p>
+    )}
   </StyledButton>
 )

@@ -9,6 +9,7 @@ export const CREATE_PRODUCT = gql`
     $categoryProps: [ProductCategoryPropInput]
     $subCategoryProps: [ProductSubCategoryPropInput]
     $name: String
+    $photoUrlList: [String]
   ) {
     createProduct(
       storeId: $storeId
@@ -18,6 +19,7 @@ export const CREATE_PRODUCT = gql`
       name: $name
       categoryProps: $categoryProps
       subCategoryProps: $subCategoryProps
+      photoUrlList: $photoUrlList
     ) {
       _id
       name

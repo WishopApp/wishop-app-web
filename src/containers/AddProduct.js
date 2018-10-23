@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-static'
+import { withRouter } from 'react-static'
 import { Layout, Row, Col, Card, Form, Checkbox } from 'antd'
 import { Query, Mutation } from 'react-apollo'
 import { find } from 'lodash'
 
 import withLayout from '../utils/with-layout'
 import Button from '../components/Form/Button'
-import BackButton from '../components/Form/BackButton'
 import Input from '../components/Form/Input'
 import AutoComplete from '../components/Form/AutoComplete'
 import Select from '../components/Form/Select'
+import ImageUpload from '../components/Form/ImageUpload'
 import { CATEGORIES } from '../graphql/query/category'
 import { CURRENT_USER } from '../graphql/authentication/query'
 import { STORE_BRANCHES } from '../graphql/query/store-branch'
 import { CREATE_PRODUCT } from '../graphql/mutation/product'
+import axios from '../utils/axios-creator'
 
 const { Content } = Layout
 const FormItem = Form.Item
@@ -23,6 +24,10 @@ class AddProduct extends Component {
   state = {
     selectedCategory: null,
     selectedSubCategory: null,
+    photo1: null,
+    photo2: null,
+    photo3: null,
+    loading: false,
   }
 
   createProduct = e => {
@@ -53,6 +58,22 @@ class AddProduct extends Component {
         }
 
         try {
+          this.setState({
+            loading: true,
+          })
+
+          const formData = new FormData()
+          formData.append('photos', this.state.photo1)
+          formData.append('photos', this.state.photo2)
+          formData.append('photos', this.state.photo3)
+
+          const headers = {
+            'content-type': 'multipart/form-data',
+          }
+
+          const resp = await axios.post('/upload/many', formData, headers)
+          const photoUrlList = resp.data.result.map(file => file.fileLocation)
+
           await this.props.createProduct({
             variables: {
               name: values.name,
@@ -62,12 +83,16 @@ class AddProduct extends Component {
               subCategoryId: this.state.selectedSubCategory._id,
               categoryProps,
               subCategoryProps,
+              photoUrlList,
             },
           })
 
+          this.setState({
+            loading: false,
+          })
           this.props.history.push('/products')
         } catch (err) {
-          console.log(err)
+          console.error(err)
         }
       }
     })
@@ -143,16 +168,57 @@ class AddProduct extends Component {
           </Col>
           <Col span={24}>
             <Card className="m-t-16">
-              <Row>
-                <Col xs={12} md={6} lg={2}>
-                  <Link to="/products">
-                    <BackButton title="BACK" icon="left" />
-                  </Link>
-                </Col>
-              </Row>
-              <Row type="flex" justify="center">
-                <Col xs={24} md={12} lg={6} className="m-t-16">
-                  <Form onSubmit={this.createProduct}>
+              <Form onSubmit={this.createProduct}>
+                <Row type="flex" justify="center">
+                  <Col xs={24} md={12} lg={10}>
+                    <h4>Product photos</h4>
+                  </Col>
+                </Row>
+                <Row type="flex" justify="center">
+                  <FormItem>
+                    {getFieldDecorator('photo1', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'Please upload product photo.',
+                        },
+                      ],
+                    })(
+                      <ImageUpload
+                        name="photo1"
+                        onChange={(key, value) =>
+                          this.setState({ [key]: value })
+                        }
+                      />
+                    )}
+                  </FormItem>
+                  {this.state.photo1 && (
+                    <FormItem>
+                      {getFieldDecorator('photo2', {})(
+                        <ImageUpload
+                          name="photo2"
+                          onChange={(key, value) =>
+                            this.setState({ [key]: value })
+                          }
+                        />
+                      )}
+                    </FormItem>
+                  )}
+                  {this.state.photo2 && (
+                    <FormItem>
+                      {getFieldDecorator('photo3', {})(
+                        <ImageUpload
+                          name="photo3"
+                          onChange={(key, value) =>
+                            this.setState({ [key]: value })
+                          }
+                        />
+                      )}
+                    </FormItem>
+                  )}
+                </Row>
+                <Row type="flex" justify="center">
+                  <Col xs={24} md={12} lg={10} className="m-t-16">
                     <FormItem>
                       {getFieldDecorator('name', {
                         rules: [
@@ -286,11 +352,11 @@ class AddProduct extends Component {
                         }
                       )}
                     <FormItem style={{ marginTop: 30 }}>
-                      <Button title="CREATE" />
+                      <Button title="CREATE" loading={this.state.loading} />
                     </FormItem>
-                  </Form>
-                </Col>
-              </Row>
+                  </Col>
+                </Row>
+              </Form>
             </Card>
           </Col>
         </Row>

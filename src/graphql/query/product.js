@@ -12,6 +12,7 @@ export const PRODUCTS = gql`
         name
       }
       status
+      photoUrlList
     }
   }
 `

@@ -1,22 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-static'
-import {
-  Row,
-  Col,
-  Card,
-  Modal,
-  Table,
-  Badge,
-  Divider,
-  Switch,
-  Popconfirm,
-} from 'antd'
+import { Row, Col, Card, Table, Badge, Switch, Popconfirm } from 'antd'
 import { Query, Mutation } from 'react-apollo'
+import moment from 'moment'
 
 import Button from '../Form/Button'
 import { PRODUCTS, PRODUCT_STATISTIC } from '../../graphql/query/product'
 import { CURRENT_USER } from '../../graphql/authentication/query'
 import { UPDATE_PRODUCT } from '../../graphql/mutation/product'
+import ExmaplePhoto from '../Form/ExmaplePhoto'
 
 class ProductTable extends Component {
   updateProduct = (id, isAvailable) => {
@@ -36,6 +28,12 @@ class ProductTable extends Component {
   render() {
     const columns = [
       {
+        title: 'Example photo',
+        dataIndex: 'photoUrlList',
+        key: 'photoUrlList',
+        render: photoUrlList => <ExmaplePhoto img={photoUrlList[0]} />,
+      },
+      {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
@@ -54,8 +52,16 @@ class ProductTable extends Component {
       },
       {
         title: 'Registered At',
-        dataIndex: 'registered_at',
-        key: 'registered_at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        align: 'center',
+        render: createdAt => (
+          <div>
+            {moment(createdAt).format('DD-MM-YYYY')}
+            <br />
+            {moment(createdAt).format('HH:mm')}
+          </div>
+        ),
       },
       {
         title: 'Status',
@@ -152,6 +158,8 @@ const WithProductStatistic = props => (
     {({ loading, error, data }) => {
       if (loading) return <Card loading />
       if (error) return `Error: ${error.message}`
+
+      console.log(data)
 
       return (
         <WithProductUpdate

@@ -50,8 +50,9 @@ const StyledUpload = styled.div`
 const UsedImage = styled.img`
   height: 150px;
   width: 150px;
+  min-width: 150px;
   border-radius: 50%;
-  background-image: url('${({ img }) => `${process.env.API_URL}/${img}`}');
+  background-image: url('${({ img }) => `${img}`}');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

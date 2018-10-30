@@ -27,6 +27,7 @@ class AddProduct extends Component {
     photo1: null,
     photo2: null,
     photo3: null,
+    price: null,
     loading: false,
   }
 
@@ -81,6 +82,7 @@ class AddProduct extends Component {
               storeBranchId: this.state.storeBranchId,
               categoryId: this.state.selectedCategory._id,
               subCategoryId: this.state.selectedSubCategory._id,
+              price: this.state.price,
               categoryProps,
               subCategoryProps,
               photoUrlList,
@@ -228,6 +230,22 @@ class AddProduct extends Component {
                           },
                         ],
                       })(<Input label="Name" placeholder="Enter name" />)}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('price', {
+                        rules: [
+                          {
+                            required: true,
+                            message: 'Please input price!',
+                          },
+                        ],
+                      })(
+                        <Input
+                          type="Number"
+                          label="Price"
+                          placeholder="Enter price"
+                        />
+                      )}
                     </FormItem>
                     {this.props.storeBranches && (
                       <FormItem style={{ marginBottom: 16 }}>

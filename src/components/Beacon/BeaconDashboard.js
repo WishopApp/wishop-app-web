@@ -1,41 +1,22 @@
 import React, { Component } from 'react'
-import { Link } from 'react-static'
-import { Row, Col, Card, Modal, Table, Badge, Divider } from 'antd'
+import { Row, Col, Card, Table, Modal, Badge, Select } from 'antd'
+import { connect } from 'react-redux'
+import { Query } from 'react-apollo'
+import moment from 'moment'
+import { filter } from 'lodash'
 
 import Button from '../Form/Button'
 import Input from '../Form/Input'
+import { STORE_BRANCHES } from '../../graphql/query/store-branch'
+import { BEACONS } from '../../graphql/query/beacon'
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    status: 'INUSE',
-    type: 'INDOOR',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    status: 'INUSE',
-    type: 'INDOOR',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    status: 'EXPIRE',
-    type: 'STICKER',
-  },
-]
+const { Option } = Select
 
 class BeaconDashboard extends Component {
   state = {
     visible: false,
-    detailVisible: false,
-    type: 'INDOOR',
-    locationX: '',
-    locationY: '',
-    dataSource: ['A', 'B', 'C'],
-    storeType: 'DEMO',
     phoneNumber: '',
+    storeBranchId: '',
   }
 
   render() {
@@ -52,18 +33,23 @@ class BeaconDashboard extends Component {
       },
       {
         title: 'Registered At',
-        dataIndex: 'registered_at',
-        key: 'registered_at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        align: 'center',
+        render: createdAt => (
+          <div>
+            <span>{moment(createdAt).format('DD-MM-YYYY')}</span>
+            <br />
+            <span>{moment(createdAt).format('HH:mm')}</span>
+          </div>
+        ),
       },
       {
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
         render: status => {
-          if (status === 'EXPIRE') {
-            return <Badge status="processing" text="Expired" />
-          }
-          if (status === 'INUSE') {
+          if (status === 'IDLE') {
             return <Badge status="success" text="Running" />
           }
         },
@@ -75,6 +61,47 @@ class BeaconDashboard extends Component {
         <Row gutter={16} type="flex" justify="center">
           <Col xs={24} md={6} className="m-b-16">
             <Col span={24}>
+              <Card>
+                <Row gutter={16} type="flex" justify="center">
+                  <Col xs={24} md={24}>
+                    <h4 className="m-b-16">Select branch:</h4>
+                    <Query
+                      query={STORE_BRANCHES}
+                      variables={{ storeId: this.props.currentUser.storeId }}
+                    >
+                      {({ loading, error, data }) => {
+                        if (loading) return 'Loading...'
+                        if (error) return `Error: ${error.message}`
+
+                        if (!this.state.storeBranchId) {
+                          this.setState({
+                            storeBranchId: data.storeBranches[0]._id,
+                          })
+                        }
+
+                        return (
+                          <Select
+                            defaultValue="Main"
+                            style={{ width: '100%' }}
+                            onChange={value =>
+                              this.setState({ storeBranchId: value })
+                            }
+                          >
+                            {data.storeBranches.map((branch, index) => (
+                              <Option key={index} value={branch._id}>
+                                {branch.name}
+                              </Option>
+                            ))}
+                          </Select>
+                        )
+                      }}
+                    </Query>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+
+            <Col span={24} className="m-t-16">
               <Card>
                 <Row gutter={16} type="flex" justify="center">
                   <Col xs={24} md={24}>
@@ -99,26 +126,57 @@ class BeaconDashboard extends Component {
             <Col span={24}>
               <Card>
                 <Row gutter={16}>
-                  <Col span={8}>
-                    <Card>
-                      <h4>LOCATION</h4>
-                      <h3>1</h3>
-                    </Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card>
-                      <h4>STICKER</h4>
-                      <h3>2</h3>
-                    </Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card>
-                      <h4>TOTAL</h4>
-                      <h3>3</h3>
-                    </Card>
-                  </Col>
                   <Col span={24} className="m-t-16">
-                    <Table columns={columns} dataSource={data} />
+                    <Query
+                      query={BEACONS}
+                      variables={{ assignId: this.state.storeBranchId }}
+                    >
+                      {({ loading, error, data }) => {
+                        if (loading) return 'Loading...'
+                        if (error) return `Error: ${error.message}`
+
+                        const beacons = data.beacons
+
+                        if (beacons) {
+                          const stickerCount = filter(beacons, {
+                            type: 'STICKER',
+                          }).length
+                          const indoorCount = filter(beacons, {
+                            type: 'INDOOR',
+                          }).length
+                          const total = beacons.length
+
+                          return (
+                            <div>
+                              <Col span={8}>
+                                <Card>
+                                  <h4>LOCATION</h4>
+                                  <h3>{indoorCount}</h3>
+                                </Card>
+                              </Col>
+                              <Col span={8}>
+                                <Card>
+                                  <h4>STICKER</h4>
+                                  <h3>{stickerCount}</h3>
+                                </Card>
+                              </Col>
+                              <Col span={8}>
+                                <Card>
+                                  <h4>TOTAL</h4>
+                                  <h3>{total}</h3>
+                                </Card>
+                              </Col>
+                              <Col span={24} className="m-t-16">
+                                <Table
+                                  columns={columns}
+                                  dataSource={data.beacons}
+                                />
+                              </Col>
+                            </div>
+                          )
+                        }
+                      }}
+                    </Query>
                   </Col>
                 </Row>
               </Card>
@@ -146,4 +204,9 @@ class BeaconDashboard extends Component {
   }
 }
 
-export default BeaconDashboard
+const BeaconDashboardWithStore = connect(
+  ({ user: currentUser }) => ({ currentUser }),
+  null
+)(BeaconDashboard)
+
+export default BeaconDashboardWithStore

@@ -6,6 +6,7 @@ import beacon from '../../public/logo/beacon.png'
 import dashboard from '../../public/logo/dashboard.png'
 import staff from '../../public/logo/staff.png'
 import product from '../../public/logo/product.png'
+import setting from '../../public/logo/setting.png'
 
 const { Header } = Layout
 
@@ -49,6 +50,10 @@ export default class DesktopMenu extends Component {
           <Menu.Item key="4" onClick={() => this.props.changePage('/staffs')}>
             <img height="30" src={staff} alt="staff" className="m-r-16" />
             STAFF
+          </Menu.Item>
+          <Menu.Item key="5" onClick={() => this.props.changePage('/setting')}>
+            <img height="30" src={setting} alt="setting" className="m-r-16" />
+            SETTING
           </Menu.Item>
         </Menu>
       </SecondBar>

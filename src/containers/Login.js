@@ -53,12 +53,12 @@ class Login extends Component {
     password: '',
   }
 
-  // componentWillMount() {
-  //   const token = Cookies.get(process.env.AUTH_TOKEN_NAME)
-  //   if (token) {
-  //     this.props.history.push('/')
-  //   }
-  // }
+  componentWillMount() {
+    const token = Cookies.get(process.env.AUTH_TOKEN_NAME)
+    if (token) {
+      this.props.history.push('/')
+    }
+  }
 
   onLogin = async e => {
     try {

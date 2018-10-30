@@ -3,11 +3,15 @@ import { Router, Switch, Route } from 'react-static'
 import universal from 'react-universal-component'
 import { hot } from 'react-hot-loader'
 import { ApolloProvider } from 'react-apollo'
+import { Provider } from 'react-redux'
+
 /* css */
 import 'antd/dist/antd.css'
 import './global-css'
 /* graphql */
 import client from './utils/apollo-connector'
+/* store */
+import store from './utils/connector/index'
 
 // Development Import
 // import CreateStore from './containers/CreateStore'
@@ -42,21 +46,23 @@ const Profile = universal(import('./containers/Profile'), options)
 
 const App = () => (
   <ApolloProvider client={client}>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/create" component={CreateStore} />
-        <Route path="/login" component={Login} />
-        <Route path="/logout" component={Logout} />
-        <Route path="/products/new" component={AddProduct} />
-        <Route path="/products" component={Product} />
-        <Route path="/beacons" component={Beacon} />
-        <Route path="/staffs/:id" component={BranchDetail} />
-        <Route path="/staffs" component={Staff} />
-        <Route path="/profile" component={Profile} />
-        <Route component={NotFound} />
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/create" component={CreateStore} />
+          <Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/products/new" component={AddProduct} />
+          <Route path="/products" component={Product} />
+          <Route path="/beacons" component={Beacon} />
+          <Route path="/staffs/:id" component={BranchDetail} />
+          <Route path="/staffs" component={Staff} />
+          <Route path="/profile" component={Profile} />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
+    </Provider>
   </ApolloProvider>
 )
 

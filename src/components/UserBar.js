@@ -4,11 +4,13 @@ import { Menu, Row, Icon, Avatar, Dropdown } from 'antd'
 import styled from 'styled-components'
 import { Query } from 'react-apollo'
 import Cookies from 'js-cookie'
+import { connect } from 'react-redux'
 
 import Logo from '../../public/logo/app-logo-inline-text.svg'
 import user from '../../public/logo/user.png'
 import logout from '../../public/logo/logout.png'
 import { CURRENT_USER } from '../graphql/authentication/query'
+import { actions as userActions } from '../utils/connector/reducers/user'
 
 const menu = (
   <Menu>
@@ -67,6 +69,8 @@ class UserBar extends Component {
             this.props.history.push('/create')
           }
 
+          this.props.updateUser(data.currentUser)
+
           return (
             <Bar type="flex" justify="space-between">
               <img
@@ -92,4 +96,11 @@ class UserBar extends Component {
   }
 }
 
-export default withRouter(UserBar)
+const UserBarWithStore = connect(
+  ({ user: currentUser }) => ({ currentUser }),
+  () => ({
+    updateUser: user => userActions.updateUser(user),
+  })
+)(UserBar)
+
+export default withRouter(UserBarWithStore)

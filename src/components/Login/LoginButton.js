@@ -20,10 +20,19 @@ const StyledButton = styled(Button)`
     font-size: 12px;
     letter-spacing: 0.1rem;
   }
+
+  i {
+    color: #fff;
+  }
 `
 
 export default props => (
-  <StyledButton block onClick={props.onClick} htmlType="submit">
-    <p>SIGN IN</p>
+  <StyledButton
+    block
+    onClick={props.onClick}
+    htmlType="submit"
+    loading={props.loading}
+  >
+    {!props.loading && <p>SIGN IN</p>}
   </StyledButton>
 )

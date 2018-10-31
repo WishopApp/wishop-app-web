@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Layout, Row, Col, Card, List, Avatar } from 'antd'
+import { Subscription } from 'react-apollo'
 
 import withLayout from '../utils/with-layout'
 import Logo from '../../public/logo/app-logo-no-title.svg'
+import { STORE_DETECTED } from '../graphql/subscription/storeDetected'
 
 const { Content } = Layout
 
@@ -64,6 +66,20 @@ class Dashboard extends Component {
           <Col xs={24} md={12}>
             <Card className="m-t-16">
               <h4>RECENT CUSTOMERS</h4>
+              <Subscription
+                subscription={STORE_DETECTED}
+                variables={{ storeBranchId: '5bcff2e00da10a2f04599197' }}
+              >
+                {({ data, loading }) => {
+                  if (loading) {
+                    return 'Waiting...'
+                  }
+
+                  console.log(data)
+
+                  return <h4>Detected!</h4>
+                }}
+              </Subscription>
               <List
                 className="m-t-16"
                 itemLayout="horizontal"

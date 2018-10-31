@@ -51,6 +51,7 @@ class Login extends Component {
   state = {
     email: '',
     password: '',
+    loading: false,
   }
 
   componentWillMount() {
@@ -64,6 +65,10 @@ class Login extends Component {
     try {
       e.preventDefault()
 
+      this.setState({
+        loading: true,
+      })
+
       const { data } = await this.props.login({
         variables: { email: this.state.email, password: this.state.password },
       })
@@ -72,6 +77,9 @@ class Login extends Component {
       this.props.history.push('/')
     } catch (err) {
       console.log(err)
+      this.setState({
+        loading: false,
+      })
     }
   }
 
@@ -114,7 +122,7 @@ class Login extends Component {
                   <ForgotPassword />
                 </Row>
                 <Row style={{ marginBottom: 20 }}>
-                  <LoginButton />
+                  <LoginButton loading={this.state.loading} />
                 </Row>
                 <Row type="flex">
                   <p style={{ marginRight: 5, marginBottom: 10 }}>

@@ -27,7 +27,6 @@ class AddProduct extends Component {
     photo1: null,
     photo2: null,
     photo3: null,
-    price: null,
     loading: false,
   }
 
@@ -82,7 +81,7 @@ class AddProduct extends Component {
               storeBranchId: this.state.storeBranchId,
               categoryId: this.state.selectedCategory._id,
               subCategoryId: this.state.selectedSubCategory._id,
-              price: this.state.price,
+              price: values.price,
               categoryProps,
               subCategoryProps,
               photoUrlList,

@@ -159,8 +159,6 @@ const WithProductStatistic = props => (
       if (loading) return <Card loading />
       if (error) return `Error: ${error.message}`
 
-      console.log(data)
-
       return (
         <WithProductUpdate
           productStatistic={data.productStatistic}

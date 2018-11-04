@@ -5,9 +5,13 @@ export const STORE_DETECTED = gql`
     storeDetected(storeBranchId: $storeBranchId) {
       _id
       name
-      productName
-      categoryId
-      subCategoryId
+      category {
+        logo
+        name
+      }
+      subCategory {
+        name
+      }
     }
   }
 `

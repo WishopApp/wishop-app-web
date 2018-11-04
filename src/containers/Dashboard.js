@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Layout, Row, Col, Card, List, Avatar } from 'antd'
-import { Subscription } from 'react-apollo'
+import { Subscription, Query } from 'react-apollo'
 
 import withLayout from '../utils/with-layout'
 import Logo from '../../public/logo/app-logo-no-title.svg'
 import { STORE_DETECTED } from '../graphql/subscription/storeDetected'
+import { STORE_BRANCHES } from '../graphql/query/store-branch'
+import CustomerWishlist from '../components/Dashboard/CustomerWishlist'
 
 const { Content } = Layout
 
@@ -41,6 +43,45 @@ const data = [
   },
 ]
 
+const LastCustomerWishlists = () => (
+  <Query query={STORE_BRANCHES}>
+    {({ loading, error, data }) => {
+      if (loading) return <Card loading />
+      if (error) return `Error: ${error.message}`
+
+      return (
+        <Subscription
+          subscription={STORE_DETECTED}
+          variables={{
+            storeBranchId: data.storeBranches[0]._id,
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return (
+                <Row type="flex" justify="center">
+                  <h4>Waiting for customer...</h4>
+                </Row>
+              )
+            }
+            if (error) return `Error: ${error.message}`
+
+            return (
+              <div>
+                <Row type="flex" justify="space-around">
+                  {data.storeDetected.map((wishlist, index) => (
+                    <CustomerWishlist key={index} wishlist={wishlist} />
+                  ))}
+                </Row>
+              </div>
+            )
+          }}
+        </Subscription>
+      )
+    }}
+  </Query>
+)
+
 class Dashboard extends Component {
   render() {
     return (
@@ -49,37 +90,15 @@ class Dashboard extends Component {
           <Col span={24}>
             <h3>DASHBOARD</h3>
           </Col>
-          <Col xs={24} md={6}>
+          <Col xs={24} md={24}>
             <Card className="m-t-16">
-              <h4 className="m-b-16">LAST CUSTOMER</h4>
-              <Row type="flex" justify="center">
-                <h4 className="m-t-16 m-b-16">Looking for</h4>
-              </Row>
-              <Row type="flex" justify="center">
-                <img src={Logo} alt="" height="50" />
-              </Row>
-              <Row type="flex" justify="center">
-                <h4 className="m-t-16 m-b-16">CATEGORY NAME</h4>
-              </Row>
+              <h4 className="m-b-16">LAST CUSTOMER IS LOOKING FOR</h4>
+              <LastCustomerWishlists />
             </Card>
           </Col>
           <Col xs={24} md={12}>
             <Card className="m-t-16">
               <h4>RECENT CUSTOMERS</h4>
-              <Subscription
-                subscription={STORE_DETECTED}
-                variables={{ storeBranchId: '5bcff2e00da10a2f04599197' }}
-              >
-                {({ data, loading }) => {
-                  if (loading) {
-                    return 'Waiting...'
-                  }
-
-                  console.log(data)
-
-                  return <h4>Detected!</h4>
-                }}
-              </Subscription>
               <List
                 className="m-t-16"
                 itemLayout="horizontal"
@@ -91,7 +110,7 @@ class Dashboard extends Component {
                         <Row type="flex" align="middle">
                           <p className="m-r-16">{index + 1}</p>
                           <Avatar src={Logo} />
-                          <p className="m-l-16">Category Name</p>
+                          <p className="m-l-16">{item.name}</p>
                         </Row>
                       </Col>
                       <Col span={6} style={{ height: '100%' }}>

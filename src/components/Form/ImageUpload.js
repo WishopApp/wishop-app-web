@@ -110,7 +110,7 @@ export default class ImageUpload extends React.Component {
           {!this.state.haveExample && (
             <div className="pre-upload">
               <Icon type="plus" className="m-r-16" />
-              Upload
+              ADD PHOTO
             </div>
           )}
         </StyledUpload>

@@ -8,6 +8,7 @@ export const CURRENT_USER = gql`
       profile {
         name
       }
+      role
     }
   }
 `

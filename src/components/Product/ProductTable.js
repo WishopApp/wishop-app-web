@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-static'
-import { Row, Col, Card, Table, Badge, Switch, Popconfirm } from 'antd'
+import { Row, Col, Card, Table, Badge, Switch, Popconfirm, Divider } from 'antd'
 import { Query, Mutation } from 'react-apollo'
 import moment from 'moment'
 
@@ -28,30 +28,30 @@ class ProductTable extends Component {
   render() {
     const columns = [
       {
-        title: 'Example photo',
+        title: 'EXAMPLE PHOTO',
         dataIndex: 'photoUrlList',
         key: 'photoUrlList',
         render: photoUrlList => <ExmaplePhoto img={photoUrlList[0]} />,
       },
       {
-        title: 'Name',
+        title: 'NAME',
         dataIndex: 'name',
         key: 'name',
       },
       {
-        title: 'Category',
+        title: 'CATEGORY',
         dataIndex: 'category',
         key: 'category',
         render: category => <p>{category.name}</p>,
       },
       {
-        title: 'Sub Category',
+        title: 'SUB CATEGORY',
         dataIndex: 'subCategory',
         key: 'subCategory',
         render: subCategory => (subCategory ? <p>{subCategory.name}</p> : ''),
       },
       {
-        title: 'Registered At',
+        title: 'REGISTERED AT',
         dataIndex: 'createdAt',
         key: 'createdAt',
         align: 'center',
@@ -64,7 +64,7 @@ class ProductTable extends Component {
         ),
       },
       {
-        title: 'Status',
+        title: 'STATUS',
         dataIndex: 'status',
         key: 'status',
         width: 150,
@@ -77,13 +77,13 @@ class ProductTable extends Component {
           ),
       },
       {
-        title: 'Operation',
+        title: '',
         dataIndex: 'Operation',
         key: 'Operation',
         align: 'center',
         render: (text, record) => (
           <Row>
-            <p className="m-b-16">สถานะสินค้า</p>
+            <p className="m-b-16">STATUS AVAILABLE</p>
             <Popconfirm
               title="Are you sure?"
               onConfirm={() =>
@@ -92,7 +92,23 @@ class ProductTable extends Component {
               okText="Yes"
               cancelText="No"
             >
-              <Switch checked={record.status === 'AVAILABLE'} />
+              <Switch
+                className="m-b-16"
+                checked={record.status === 'AVAILABLE'}
+              />
+            </Popconfirm>
+            <br />
+            <a className="m-b-16">DETAIL</a>
+            <Divider type="vertical" />
+            <Popconfirm
+              title="Are you sure?"
+              onConfirm={() =>
+                this.updateProduct(record._id, record.status === 'AVAILABLE')
+              }
+              okText="Yes"
+              cancelText="No"
+            >
+              <a className="m-b-16">DELETE</a>
             </Popconfirm>
           </Row>
         ),

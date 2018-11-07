@@ -168,11 +168,11 @@ class AddProduct extends Component {
             </Row>
           </Col>
           <Col span={24}>
-            <Card className="m-t-16">
+            <Card className="m-t-16" style={{ padding: 20 }}>
               <Form onSubmit={this.createProduct}>
                 <Row type="flex" justify="center">
                   <Col xs={24} md={12} lg={10}>
-                    <h4>Product photos</h4>
+                    <h4>PRODUCT PHOTOS</h4>
                   </Col>
                 </Row>
                 <Row type="flex" justify="center">
@@ -228,7 +228,7 @@ class AddProduct extends Component {
                             message: 'Please input name!',
                           },
                         ],
-                      })(<Input label="Name" placeholder="Enter name" />)}
+                      })(<Input label="NAME" placeholder="Enter name" />)}
                     </FormItem>
                     <FormItem>
                       {getFieldDecorator('price', {
@@ -241,7 +241,7 @@ class AddProduct extends Component {
                       })(
                         <Input
                           type="Number"
-                          label="Price"
+                          label="PRICE"
                           placeholder="Enter price"
                         />
                       )}
@@ -257,7 +257,7 @@ class AddProduct extends Component {
                           ],
                         })(
                           <div>
-                            <h4>Available on branch</h4>
+                            <h4>AVAILABLE ON BRANCH</h4>
                             <CheckboxGroup
                               onChange={storeBranchId =>
                                 this.setState({ storeBranchId })
@@ -290,7 +290,7 @@ class AddProduct extends Component {
                         ],
                       })(
                         <AutoComplete
-                          label="Category"
+                          label="CATEGORY"
                           placeholder="Select Category..."
                           dataSource={this.getCategoryDataSource()}
                           onSelect={this.selectCategory}
@@ -311,7 +311,7 @@ class AddProduct extends Component {
                             ],
                           })(
                             <AutoComplete
-                              label="Sub Category"
+                              label="SUB CATEGORY"
                               placeholder="Select Sub Category..."
                               dataSource={this.getSubCategoryDataSource()}
                               onSelect={this.selectSubCategory}
@@ -331,7 +331,7 @@ class AddProduct extends Component {
                             ],
                           })(
                             <Select
-                              label={p.name}
+                              label={p.name.toUpperCase()}
                               placeholder={`Select ${p.name}`}
                               data={this.getCategoryPropertyValues(index)}
                             />
@@ -356,7 +356,7 @@ class AddProduct extends Component {
                                   ],
                                 })(
                                   <Select
-                                    label={p.name}
+                                    label={p.name.toUpperCase()}
                                     placeholder={`Select ${p.name}`}
                                     data={this.getSubCategoryPropertyValues(
                                       index

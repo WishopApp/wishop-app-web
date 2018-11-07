@@ -44,7 +44,7 @@ const data = [
   },
 ]
 
-const LastCustomerWishlists = () => (
+const LastCustomerWishlists = props => (
   <Query query={STORE_BRANCHES}>
     {({ loading, error, data }) => {
       if (loading) return <Card loading />
@@ -69,10 +69,18 @@ const LastCustomerWishlists = () => (
                   <img src={radarSVG} alt="customer-detecting-radar" />
                   <h4>CUSTOMER DETECTING</h4>
                   <h4 className="m-b-16">PLEASE WAIT</h4>
+                  <h5 style={{ color: '#b1b1b1' }}>
+                    Please do not close this page
+                  </h5>
+                  <h5 style={{ color: '#b1b1b1' }}>
+                    Only show detected customer while open this page.
+                  </h5>
                 </Row>
               )
             }
             if (error) return `Error: ${error.message}`
+
+            props.showSmallDetectIcon(true)
 
             return (
               <div>
@@ -91,6 +99,10 @@ const LastCustomerWishlists = () => (
 )
 
 class Dashboard extends Component {
+  state = {
+    showSmallDetectIcon: false,
+  }
+
   render() {
     return (
       <Content style={{ padding: 16 }}>
@@ -100,8 +112,25 @@ class Dashboard extends Component {
           </Col>
           <Col xs={24} md={24}>
             <Card className="m-t-16">
-              <h4 className="m-b-16">LAST CUSTOMER IS LOOKING FOR</h4>
-              <LastCustomerWishlists />
+              <Row type="flex" justify="space-between" align="middle">
+                <h4 className="m-b-16">LASTTEST CUSTOMER IS LOOKING FOR</h4>
+                {this.state.showSmallDetectIcon && (
+                  <Row type="flex" align="middle">
+                    <span>DETECTING</span>
+                    <img
+                      src={radarSVG}
+                      height="50"
+                      alt="customer-detecting-radar"
+                    />
+                  </Row>
+                )}
+              </Row>
+
+              <LastCustomerWishlists
+                showSmallDetectIcon={value =>
+                  this.setState({ showSmallDetectIcon: value })
+                }
+              />
             </Card>
           </Col>
           <Col xs={24} md={12}>

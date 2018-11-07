@@ -22,17 +22,17 @@ class BeaconDashboard extends Component {
   render() {
     const columns = [
       {
-        title: 'Name',
+        title: 'NAME',
         dataIndex: 'name',
         key: 'name',
       },
       {
-        title: 'Type',
+        title: 'TYPE',
         dataIndex: 'type',
         key: 'type',
       },
       {
-        title: 'Registered At',
+        title: 'REGISTERED AT',
         dataIndex: 'createdAt',
         key: 'createdAt',
         align: 'center',
@@ -45,7 +45,7 @@ class BeaconDashboard extends Component {
         ),
       },
       {
-        title: 'Status',
+        title: 'STATUS',
         dataIndex: 'status',
         key: 'status',
         render: status => {
@@ -64,7 +64,7 @@ class BeaconDashboard extends Component {
               <Card>
                 <Row gutter={16} type="flex" justify="center">
                   <Col xs={24} md={24}>
-                    <h4 className="m-b-16">Select branch:</h4>
+                    <h4 className="m-b-16">SELECT BRANCH</h4>
                     <Query
                       query={STORE_BRANCHES}
                       variables={{ storeId: this.props.currentUser.storeId }}
@@ -105,9 +105,7 @@ class BeaconDashboard extends Component {
               <Card>
                 <Row gutter={16} type="flex" justify="center">
                   <Col xs={24} md={24}>
-                    <h4 className="m-b-16">
-                      Do you want to upgrade your shop ?
-                    </h4>
+                    <h4 className="m-b-16">DO YOU WANT TO UPGRADE ?</h4>
                     <Button icon="plus" title="ORDER MORE" />
                   </Col>
                 </Row>
@@ -116,8 +114,8 @@ class BeaconDashboard extends Component {
 
             <Col span={24} className="m-t-16" style={{ marginBottom: 50 }}>
               <Card>
-                <h4>Do you have a problem ?</h4>
-                <p>Call: 082-584-5803</p>
+                <h4>HAVE A PROBLEM ?</h4>
+                <p>CONTACT US: 082-584-5803</p>
               </Card>
             </Col>
           </Col>
@@ -138,34 +136,37 @@ class BeaconDashboard extends Component {
                         const beacons = data.beacons
 
                         if (beacons) {
-                          const stickerCount = filter(beacons, {
-                            type: 'STICKER',
+                          const expireCount = filter(beacons, {
+                            status: 'EXPIRE',
                           }).length
-                          const indoorCount = filter(beacons, {
-                            type: 'INDOOR',
+                          const inuseCount = filter(beacons, {
+                            status: 'INUSE',
                           }).length
                           const total = beacons.length
 
                           return (
                             <div>
-                              <Col span={8}>
-                                <Card>
-                                  <h4>LOCATION</h4>
-                                  <h3>{indoorCount}</h3>
-                                </Card>
-                              </Col>
-                              <Col span={8}>
-                                <Card>
-                                  <h4>STICKER</h4>
-                                  <h3>{stickerCount}</h3>
-                                </Card>
-                              </Col>
-                              <Col span={8}>
-                                <Card>
-                                  <h4>TOTAL</h4>
-                                  <h3>{total}</h3>
-                                </Card>
-                              </Col>
+                              <Row gutter={16}>
+                                <Col span={8}>
+                                  <Card>
+                                    <h4>RUNNING</h4>
+                                    <h3>{inuseCount}</h3>
+                                  </Card>
+                                </Col>
+                                <Col span={8}>
+                                  <Card>
+                                    <h4>EXPIRE</h4>
+                                    <h3>{expireCount}</h3>
+                                  </Card>
+                                </Col>
+                                <Col span={8}>
+                                  <Card>
+                                    <h4>TOTAL</h4>
+                                    <h3>{total}</h3>
+                                  </Card>
+                                </Col>
+                              </Row>
+
                               <Col span={24} className="m-t-16">
                                 <Table
                                   columns={columns}

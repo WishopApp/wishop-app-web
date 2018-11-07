@@ -8,6 +8,7 @@ import { STORE_DETECTED } from '../graphql/subscription/storeDetected'
 import { STORE_BRANCHES } from '../graphql/query/store-branch'
 import CustomerWishlist from '../components/Dashboard/CustomerWishlist'
 import radarSVG from '../../public/logo/radar.svg'
+import CustomerChart from '../components/Dashboard/CustomerChart'
 
 const { Content } = Layout
 
@@ -113,7 +114,13 @@ class Dashboard extends Component {
           <Col xs={24} md={24}>
             <Card className="m-t-16">
               <Row type="flex" justify="space-between" align="middle">
-                <h4 className="m-b-16">LASTTEST CUSTOMER IS LOOKING FOR</h4>
+                <Row>
+                  <h4>YOUR CUSTOMER IS LOOKING FOR</h4>
+                  <h5 style={{ color: '#b1b1b1' }}>
+                    From lastest detected customer wishlists
+                  </h5>
+                </Row>
+
                 {this.state.showSmallDetectIcon && (
                   <Row type="flex" align="middle">
                     <span>DETECTING</span>
@@ -133,41 +140,22 @@ class Dashboard extends Component {
               />
             </Card>
           </Col>
-          <Col xs={24} md={12}>
+          <Col xs={24} md={18}>
             <Card className="m-t-16">
-              <h4>RECENT CUSTOMERS</h4>
-              <List
-                className="m-t-16"
-                itemLayout="horizontal"
-                dataSource={data}
-                renderItem={(item, index) => (
-                  <List.Item>
-                    <Row style={{ width: '100%' }}>
-                      <Col span={18}>
-                        <Row type="flex" align="middle">
-                          <p className="m-r-16">{index + 1}</p>
-                          <Avatar src={Logo} />
-                          <p className="m-l-16">{item.name}</p>
-                        </Row>
-                      </Col>
-                      <Col span={6} style={{ height: '100%' }}>
-                        <Row
-                          type="flex"
-                          align="middle"
-                          style={{ height: '100%' }}
-                        >
-                          <p>2018-06-01 17:03</p>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </List.Item>
-                )}
-              />
+              <h4>STATISTIC</h4>
+              <h5 style={{ color: '#b1b1b1' }}>
+                This statistic is come from detecting system
+              </h5>
+              <CustomerChart />
             </Card>
           </Col>
           <Col xs={24} md={6}>
             <Card className="m-t-16">
               <h4>CATEGORY RANKING</h4>
+              <h5 style={{ color: '#b1b1b1' }}>
+                From detected customers wishlist
+              </h5>
+
               <List
                 className="m-t-16"
                 itemLayout="horizontal"

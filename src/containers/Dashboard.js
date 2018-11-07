@@ -7,6 +7,7 @@ import Logo from '../../public/logo/app-logo-no-title.svg'
 import { STORE_DETECTED } from '../graphql/subscription/storeDetected'
 import { STORE_BRANCHES } from '../graphql/query/store-branch'
 import CustomerWishlist from '../components/Dashboard/CustomerWishlist'
+import radarSVG from '../../public/logo/radar.svg'
 
 const { Content } = Layout
 
@@ -59,8 +60,15 @@ const LastCustomerWishlists = () => (
           {({ loading, error, data }) => {
             if (loading) {
               return (
-                <Row type="flex" justify="center">
-                  <h4>Waiting for customer...</h4>
+                <Row
+                  type="flex"
+                  justify="center"
+                  align="middle"
+                  style={{ flexDirection: 'column' }}
+                >
+                  <img src={radarSVG} alt="customer-detecting-radar" />
+                  <h4>CUSTOMER DETECTING</h4>
+                  <h4 className="m-b-16">PLEASE WAIT</h4>
                 </Row>
               )
             }

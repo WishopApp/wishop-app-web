@@ -68,7 +68,7 @@ const LastCustomerWishlists = props => (
                   style={{ flexDirection: 'column' }}
                 >
                   <img src={radarSVG} alt="customer-detecting-radar" />
-                  <h4>CUSTOMER DETECTING</h4>
+                  <h4>DETECTING CUSTOMER</h4>
                   <h4 className="m-b-16">PLEASE WAIT</h4>
                   <h5 style={{ color: '#b1b1b1' }}>
                     Please do not close this page

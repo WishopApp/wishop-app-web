@@ -86,6 +86,12 @@ export default class ImageUpload extends React.Component {
   }
 
   render() {
+    if (this.props.img && this.state.haveExample === false) {
+      this.setState({
+        haveExample: true,
+      })
+    }
+
     return (
       <div>
         <Input

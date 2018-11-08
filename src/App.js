@@ -22,9 +22,9 @@ import store from './utils/connector/index'
 // import Product from './containers/Product'
 // import AddProduct from './containers/AddProduct'
 // import Beacon from './containers/Beacon'
-// import BranchDetail from './containers/BranchDetail'
-// import Staff from './containers/Staff'
+// import Branch from './containers/Branch'
 // import Profile from './containers/Profile'
+// import Setting from './containers/Setting'
 
 const Loading = () => <div />
 
@@ -40,9 +40,9 @@ const Dashboard = universal(import('./containers/Dashboard'), options)
 const Product = universal(import('./containers/Product'), options)
 const AddProduct = universal(import('./containers/AddProduct'), options)
 const Beacon = universal(import('./containers/Beacon'), options)
-const BranchDetail = universal(import('./containers/BranchDetail'), options)
-const Staff = universal(import('./containers/Staff'), options)
+const Branch = universal(import('./containers/Branch'), options)
 const Profile = universal(import('./containers/Profile'), options)
+const Setting = universal(import('./containers/Setting'), options)
 
 const App = () => (
   <ApolloProvider client={client}>
@@ -56,9 +56,9 @@ const App = () => (
           <Route path="/products/new" component={AddProduct} />
           <Route path="/products" component={Product} />
           <Route path="/beacons" component={Beacon} />
-          <Route path="/staffs/:id" component={BranchDetail} />
-          <Route path="/staffs" component={Staff} />
+          <Route path="/branches" component={Branch} />
           <Route path="/profile" component={Profile} />
+          <Route path="/setting" component={Setting} />
           <Route component={NotFound} />
         </Switch>
       </Router>

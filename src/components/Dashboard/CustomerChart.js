@@ -40,12 +40,9 @@ const data = [
 export default class CustomerChart extends Component {
   render() {
     return (
-      <div style={{ padding: 50, width: '100%' }}>
+      <div style={{ padding: '50px 0', width: '100%' }}>
         <ResponsiveContainer height={300}>
-          <LineChart
-            data={data}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
+          <LineChart data={data}>
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid strokeDasharray="3 3" />

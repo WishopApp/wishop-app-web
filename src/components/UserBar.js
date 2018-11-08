@@ -69,7 +69,10 @@ class UserBar extends Component {
             this.props.history.push('/create')
           }
 
-          this.props.updateUser(data.currentUser)
+          const currentUserInStore = this.props.currentUser
+          if (!currentUserInStore) {
+            this.props.updateUser(data.currentUser)
+          }
 
           return (
             <Bar type="flex" justify="space-between">
@@ -97,10 +100,10 @@ class UserBar extends Component {
 }
 
 const UserBarWithStore = connect(
-  ({ user: currentUser }) => ({ currentUser }),
-  () => ({
-    updateUser: user => userActions.updateUser(user),
-  })
+  ({ user }) => ({ currentUser: user.currentUser }),
+  {
+    updateUser: userActions.updateUser,
+  }
 )(UserBar)
 
 export default withRouter(UserBarWithStore)

@@ -47,11 +47,11 @@ export default class DesktopMenu extends Component {
             <img height="30" src={beacon} alt="beacon" className="m-r-16" />
             BEACON
           </Menu.Item>
-          <Menu.Item key="4" onClick={() => this.props.changePage('/staffs')}>
+          <Menu.Item key="4" onClick={() => this.props.changePage('/branches')}>
             <img height="30" src={staff} alt="staff" className="m-r-16" />
-            STAFF
+            BRANCH
           </Menu.Item>
-          <Menu.Item key="5" onClick={() => this.props.changePage('/setting')}>
+          <Menu.Item key="6" onClick={() => this.props.changePage('/setting')}>
             <img height="30" src={setting} alt="setting" className="m-r-16" />
             SETTING
           </Menu.Item>

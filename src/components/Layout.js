@@ -35,8 +35,9 @@ class AppLayout extends Component {
       dashboard: '1',
       product: '2',
       beacon: '3',
-      staff: '4',
+      branch: '4',
       profile: '5',
+      setting: '6',
     }
 
     return listOfKeys[this.props.pageDetail.department]

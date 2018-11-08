@@ -6,13 +6,13 @@ import StaffTable from '../components/Staff/StaffTable'
 
 const { Content } = Layout
 
-class Staff extends Component {
+class Branch extends Component {
   render() {
     return (
       <Content style={{ padding: 16 }}>
         <Row gutter={16}>
           <Col span={24}>
-            <h3>STAFF</h3>
+            <h3>BRANCH</h3>
           </Col>
           <Col span={24} className="m-t-16">
             <StaffTable />
@@ -23,4 +23,4 @@ class Staff extends Component {
   }
 }
 
-export default withLayout(Staff, { department: 'staff' })
+export default withLayout(Branch, { department: 'branch' })

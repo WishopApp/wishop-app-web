@@ -78,12 +78,12 @@ export default class MobileMenu extends Component {
               </Link>
             </Col>
             <Col span={4} style={{ padding: 8 }}>
-              <Link to="/staffs">
+              <Link to="/branches">
                 <Row type="flex" justify="center" align="middle">
-                  <img src={staff} alt="staff" />
+                  <img src={staff} alt="branch" />
                 </Row>
                 <Row type="flex" justify="center" align="middle">
-                  <p>STAFF</p>
+                  <p>BRANCH</p>
                 </Row>
               </Link>
             </Col>

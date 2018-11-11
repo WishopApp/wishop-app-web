@@ -21,6 +21,7 @@ import store from './utils/connector/index'
 // import Dashboard from './containers/Dashboard'
 // import Product from './containers/Product'
 // import AddProduct from './containers/AddProduct'
+// import AddPromotion from './containers/AddPromotion'
 // import Beacon from './containers/Beacon'
 // import Branch from './containers/Branch'
 // import Profile from './containers/Profile'
@@ -39,6 +40,7 @@ const NotFound = universal(import('./containers/404'), options)
 const Dashboard = universal(import('./containers/Dashboard'), options)
 const Product = universal(import('./containers/Product'), options)
 const AddProduct = universal(import('./containers/AddProduct'), options)
+const AddPromotion = universal(import('./containers/AddPromotion'), options)
 const Beacon = universal(import('./containers/Beacon'), options)
 const Branch = universal(import('./containers/Branch'), options)
 const Profile = universal(import('./containers/Profile'), options)
@@ -54,6 +56,7 @@ const App = () => (
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
           <Route path="/products/new" component={AddProduct} />
+          <Route path="/promotion/new" component={AddPromotion} />
           <Route path="/products" component={Product} />
           <Route path="/beacons" component={Beacon} />
           <Route path="/branches" component={Branch} />

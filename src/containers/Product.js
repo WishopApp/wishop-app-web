@@ -12,7 +12,7 @@ class Product extends Component {
       <Content style={{ padding: 16 }}>
         <Row gutter={16}>
           <Col span={24}>
-            <h3>PRODUCT</h3>
+            <h3>PRODUCT & PROMOTION</h3>
           </Col>
           <Col span={24} className="m-t-16">
             <ProductTable />

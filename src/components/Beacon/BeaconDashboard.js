@@ -56,6 +56,10 @@ class BeaconDashboard extends Component {
       },
     ]
 
+    if (!this.props.currentUser) {
+      return <Card loading />
+    }
+
     return (
       <Col span={24} className="m-t-16">
         <Row gutter={16} type="flex" justify="center">
@@ -206,7 +210,7 @@ class BeaconDashboard extends Component {
 }
 
 const BeaconDashboardWithStore = connect(
-  ({ user: currentUser }) => ({ currentUser }),
+  ({ user }) => ({ currentUser: user.currentUser }),
   null
 )(BeaconDashboard)
 

@@ -5,6 +5,9 @@ export const STORE_BRANCHES = gql`
     storeBranches(storeId: $storeId) {
       _id
       name
+      telNo
+      staffUsername
+      createdAt
     }
   }
 `

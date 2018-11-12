@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Layout, Col, Row, Card, Form } from 'antd'
+import { Layout, Col, Row, Card, Form, notification } from 'antd'
 import { Query, Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
 
@@ -52,6 +52,11 @@ class Setting extends Component {
                     description: values.description,
                   },
                 })
+
+                notification.success({
+                  message: 'Saved !',
+                  description: 'New store information is perfectly saved.',
+                })
               } catch (err) {
                 console.log(err)
               }
@@ -62,7 +67,7 @@ class Setting extends Component {
             <Content style={{ padding: 16 }}>
               <Row gutter={16}>
                 <Col span={24}>
-                  <h3>SETTING</h3>
+                  <h3>STORE SETTING</h3>
                 </Col>
                 <Col xs={24} md={24}>
                   <Card className="m-t-16">
@@ -136,7 +141,7 @@ class Setting extends Component {
                                 </FormItem>
                                 <FormItem style={{ marginTop: 30 }}>
                                   <Button
-                                    title="UPDATE"
+                                    title="SAVE"
                                     loading={this.state.loading}
                                   />
                                 </FormItem>
@@ -149,7 +154,6 @@ class Setting extends Component {
                   </Card>
                 </Col>
               </Row>
-              )}
             </Content>
           )
         }}

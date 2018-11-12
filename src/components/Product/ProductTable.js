@@ -127,11 +127,7 @@ class ProductTable extends Component {
           <Popconfirm
             title="Are you sure?"
             onConfirm={() =>
-              functions.onUpdateProduct(
-                record._id,
-                record.status === 'AVAILABLE',
-                functions.productsQuery
-              )
+              functions.onDeleteProduct(record._id, functions.productRefetch)
             }
             okText="Yes"
             cancelText="No"
@@ -183,6 +179,17 @@ class ProductTable extends Component {
                 status = 'AVAILABLE'
               }
               await updateProduct.mutation({ variables: { id, status } })
+              productRefetch()
+            } catch (err) {
+              console.error(err.message)
+            }
+          }
+
+          const onDeleteProduct = async (id, productRefetch) => {
+            try {
+              await updateProduct.mutation({
+                variables: { id, status: 'DELETE' },
+              })
               productRefetch()
             } catch (err) {
               console.error(err.message)
@@ -299,6 +306,7 @@ class ProductTable extends Component {
                               <Table
                                 columns={this.getProductColumns({
                                   onUpdateProduct,
+                                  onDeleteProduct,
                                   productRefetch: refetch,
                                 })}
                                 dataSource={data.products}

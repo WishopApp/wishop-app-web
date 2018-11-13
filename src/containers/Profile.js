@@ -1,11 +1,22 @@
 import React, { Component } from 'react'
 import { Layout, Row, Col, Card } from 'antd'
+import { withRouter } from 'react-static'
 
 import withLayout from '../utils/with-layout'
+import Button from '../components/Form/Button'
+import SecondaryButton from '../components/Form/SecondaryButton'
 
 const { Content } = Layout
 
 class Profile extends Component {
+  goLogout = () => {
+    this.props.history.push('/logout')
+  }
+
+  goSetting = () => {
+    this.props.history.push('/setting')
+  }
+
   render() {
     return (
       <Content style={{ padding: 16 }}>
@@ -15,7 +26,12 @@ class Profile extends Component {
           </Col>
           <Col xs={24} md={12}>
             <Card className="m-t-16">
-              <h3>Under development...</h3>
+              <Row className="m-b-16">
+                <Button title="STORE SETTING" onClick={this.goSetting} block />
+              </Row>
+              <Row>
+                <SecondaryButton title="LOGOUT" onClick={this.goLogout} block />
+              </Row>
             </Card>
           </Col>
         </Row>
@@ -24,4 +40,4 @@ class Profile extends Component {
   }
 }
 
-export default withLayout(Profile, { department: 'beacon' })
+export default withLayout(withRouter(Profile), { department: 'beacon' })

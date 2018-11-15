@@ -84,17 +84,17 @@ class Setting extends Component {
                             <div style={{ width: 600 }}>
                               <h4>SHOP AVATAR</h4>
                               <Form onSubmit={onUpdateStore}>
-                                <FormItem>
-                                  {getFieldDecorator('avatar', {
-                                    initialValue: data.store.avatarUrl,
-                                    rules: [
-                                      {
-                                        required: true,
-                                        message: 'Please upload.',
-                                      },
-                                    ],
-                                  })(
-                                    <Row type="flex" justify="center">
+                                <Row type="flex" justify="center">
+                                  <FormItem>
+                                    {getFieldDecorator('avatar', {
+                                      initialValue: data.store.avatarUrl,
+                                      rules: [
+                                        {
+                                          required: true,
+                                          message: 'Please upload.',
+                                        },
+                                      ],
+                                    })(
                                       <ImageUpload
                                         name="avatar"
                                         img={data.store.avatarUrl}
@@ -102,9 +102,9 @@ class Setting extends Component {
                                           this.setState({ [key]: value })
                                         }
                                       />
-                                    </Row>
-                                  )}
-                                </FormItem>
+                                    )}
+                                  </FormItem>
+                                </Row>
                                 <FormItem>
                                   {getFieldDecorator('name', {
                                     initialValue: data.store.name,

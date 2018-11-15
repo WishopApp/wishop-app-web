@@ -79,6 +79,10 @@ class Dashboard extends Component {
 
           const storeBranchData = data
 
+          if (data.storeBranches.length === 0) {
+            return <Card loading />
+          }
+
           return (
             <Query
               query={STORE_BRANCH_STATISTIC}

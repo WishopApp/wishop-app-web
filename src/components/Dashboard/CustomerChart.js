@@ -44,9 +44,14 @@ export default class CustomerChart extends Component {
     }
 
     this.props.dataSource.map((d, index) => {
-      data[index].detectedCustomer = d.count
+      d.hours.map((hr, index) => {
+        data[index].detectedCustomer = hr
+        return null
+      })
       return null
     })
+
+    return data
   }
 
   render() {

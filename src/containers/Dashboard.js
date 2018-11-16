@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Layout, Row, Col, Card, List, Avatar } from 'antd'
+import { Layout, Row, Col, Card, List } from 'antd'
 import { Subscription, Query } from 'react-apollo'
 import { connect } from 'react-redux'
+import { sortBy, takeRight } from 'lodash'
 
 import withLayout from '../utils/with-layout'
-import Logo from '../../public/logo/app-logo-no-title.svg'
 import { STORE_DETECTED } from '../graphql/subscription/storeDetected'
 import { STORE_BRANCHES } from '../graphql/query/store-branch'
 import CustomerWishlist from '../components/Dashboard/CustomerWishlist'
@@ -40,14 +40,18 @@ const LastCustomerWishlists = props => (
           </Row>
         )
       }
+
       if (error) return `Error: ${error.message}`
 
-      props.showSmallDetectIcon(true)
+      if (props.detected !== true) {
+        props.showSmallDetectIcon(true)
+      }
+
       props.statisticRefetch()
 
       return (
         <div>
-          <Row type="flex" justify="space-around">
+          <Row type="flex" justify="space-around" className="m-t-16">
             {data.storeDetected.map((wishlist, index) => (
               <CustomerWishlist key={index} wishlist={wishlist} />
             ))}
@@ -61,6 +65,7 @@ const LastCustomerWishlists = props => (
 class Dashboard extends Component {
   state = {
     showSmallDetectIcon: false,
+    statisticRefetcher: null,
   }
 
   render() {
@@ -84,96 +89,117 @@ class Dashboard extends Component {
           }
 
           return (
-            <Query
-              query={STORE_BRANCH_STATISTIC}
-              variables={{
-                storeBranchId: storeBranchData.storeBranches[0]._id,
-              }}
-            >
-              {({ loading, error, data, refetch }) => {
-                if (loading) return <Card loading />
-                if (error) return `Error: ${error.message}`
+            <Content style={{ padding: 16 }}>
+              <Row gutter={16}>
+                <Col span={24}>
+                  <h3>DASHBOARD</h3>
+                </Col>
+                <Col xs={24} md={24}>
+                  <Card className="m-t-16">
+                    <Row type="flex" justify="space-between" align="middle">
+                      <Row>
+                        <h4>YOUR CUSTOMER IS LOOKING FOR</h4>
+                        <h5 style={{ color: '#b1b1b1' }}>
+                          From lastest detected customer wishlists
+                        </h5>
+                      </Row>
 
-                const statisticData = data
-
-                return (
-                  <Content style={{ padding: 16 }}>
-                    <Row gutter={16}>
-                      <Col span={24}>
-                        <h3>DASHBOARD</h3>
-                      </Col>
-                      <Col xs={24} md={24}>
-                        <Card className="m-t-16">
-                          <Row
-                            type="flex"
-                            justify="space-between"
-                            align="middle"
-                          >
-                            <Row>
-                              <h4>YOUR CUSTOMER IS LOOKING FOR</h4>
-                              <h5 style={{ color: '#b1b1b1' }}>
-                                From lastest detected customer wishlists
-                              </h5>
-                            </Row>
-
-                            {this.state.showSmallDetectIcon && (
-                              <Row type="flex" align="middle">
-                                <span>DETECTING</span>
-                                <img
-                                  src={radarSVG}
-                                  height="50"
-                                  alt="customer-detecting-radar"
-                                />
-                              </Row>
-                            )}
-                          </Row>
-
-                          <LastCustomerWishlists
-                            statisticRefetch={refetch}
-                            storeBranchId={storeBranchData.storeBranches[0]._id}
-                            showSmallDetectIcon={value =>
-                              this.setState({ showSmallDetectIcon: value })
-                            }
+                      {this.state.showSmallDetectIcon && (
+                        <Row type="flex" align="middle">
+                          <span>DETECTING</span>
+                          <img
+                            src={radarSVG}
+                            height="50"
+                            alt="customer-detecting-radar"
                           />
-                        </Card>
-                      </Col>
-                      <Col xs={24} md={18}>
-                        <Card className="m-t-16">
-                          <h4>STATISTIC</h4>
-                          <h5 style={{ color: '#b1b1b1' }}>
-                            This statistic is come from detecting system
-                          </h5>
-                          <CustomerChart />
-                        </Card>
-                      </Col>
-                      <Col xs={24} md={6}>
-                        <Card className="m-t-16">
-                          <h4>CATEGORY RANKING</h4>
-                          <h5 style={{ color: '#b1b1b1' }}>
-                            From detected customers wishlist
-                          </h5>
-
-                          <List
-                            className="m-t-16"
-                            itemLayout="horizontal"
-                            dataSource={statisticData.categoryRanking}
-                            renderItem={(item, index) => (
-                              <List.Item>
-                                <Row type="flex" align="middle">
-                                  <p className="m-r-16">{index + 1}</p>
-                                  <Avatar src={Logo} />
-                                  <p className="m-l-16">Category Name</p>
-                                </Row>
-                              </List.Item>
-                            )}
-                          />
-                        </Card>
-                      </Col>
+                        </Row>
+                      )}
                     </Row>
-                  </Content>
-                )
-              }}
-            </Query>
+
+                    <LastCustomerWishlists
+                      statisticRefetch={this.state.statisticRefetcher}
+                      detected={this.state.showSmallDetectIcon}
+                      storeBranchId={storeBranchData.storeBranches[0]._id}
+                      showSmallDetectIcon={value =>
+                        this.setState({ showSmallDetectIcon: value })
+                      }
+                    />
+                  </Card>
+                </Col>
+
+                <Query
+                  query={STORE_BRANCH_STATISTIC}
+                  variables={{
+                    storeBranchId: storeBranchData.storeBranches[0]._id,
+                  }}
+                >
+                  {({ loading, error, data, refetch }) => {
+                    if (loading) return <Card loading />
+                    if (error) return `Error: ${error.message}`
+
+                    const statisticData = data.storeBranchStatistic
+                    const sortedCategory = sortBy(
+                      statisticData.categoryRanking,
+                      ['count']
+                    )
+                    const fiveTopCategory = takeRight(sortedCategory, 5)
+
+                    if (!this.state.statisticRefetcher) {
+                      this.setState({
+                        statisticRefetcher: refetch,
+                      })
+                    }
+
+                    return (
+                      <Col span={24}>
+                        <Row gutter={16}>
+                          <Col xs={24} md={18}>
+                            <Card className="m-t-16">
+                              <h4>STATISTIC</h4>
+                              <h5 style={{ color: '#b1b1b1' }}>
+                                This statistic is come from detecting system
+                              </h5>
+                              <CustomerChart
+                                dataSource={statisticData.reachCount}
+                              />
+                            </Card>
+                          </Col>
+                          <Col xs={24} md={6}>
+                            <Card className="m-t-16">
+                              <h4>CATEGORY RANKING</h4>
+                              <h5 style={{ color: '#b1b1b1' }}>
+                                From detected customers wishlist
+                              </h5>
+
+                              <List
+                                className="m-t-16"
+                                itemLayout="horizontal"
+                                dataSource={fiveTopCategory}
+                                renderItem={(item, index) => (
+                                  <List.Item>
+                                    <Row type="flex" align="middle">
+                                      <p className="m-r-16">{index + 1}</p>
+                                      <img
+                                        src={item.category.logo}
+                                        height="50"
+                                        alt="logo"
+                                      />
+                                      <p className="m-l-16">
+                                        {item.category.name}
+                                      </p>
+                                    </Row>
+                                  </List.Item>
+                                )}
+                              />
+                            </Card>
+                          </Col>
+                        </Row>
+                      </Col>
+                    )
+                  }}
+                </Query>
+              </Row>
+            </Content>
           )
         }}
       </Query>

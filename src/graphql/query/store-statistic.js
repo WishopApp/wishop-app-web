@@ -12,6 +12,10 @@ export const STORE_BRANCH_STATISTIC = gql`
       categoryRanking {
         categoryId
         count
+        category {
+          name
+          logo
+        }
       }
     }
   }

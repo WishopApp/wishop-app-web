@@ -138,6 +138,10 @@ class Dashboard extends Component {
                     if (error) return `Error: ${error.message}`
 
                     const statisticData = data.storeBranchStatistic
+                    if (!statisticData) {
+                      return <div />
+                    }
+
                     const sortedCategory = sortBy(
                       statisticData.categoryRanking,
                       ['count']

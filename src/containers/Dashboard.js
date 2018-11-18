@@ -132,6 +132,7 @@ class Dashboard extends Component {
                   variables={{
                     storeBranchId: storeBranchData.storeBranches[0]._id,
                   }}
+                  fetchPolicy="network-only"
                 >
                   {({ loading, error, data, refetch }) => {
                     if (loading) return <Card loading />
